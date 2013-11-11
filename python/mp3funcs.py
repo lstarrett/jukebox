@@ -15,6 +15,8 @@ def main():
 def mp3func():
 	# TODO: implement mp3 opertaion. make more functions for other operations.
 	print "Hello, world!"
+	print "moosic is fun"
+
 
 
 # MAIN (call main automatically when 'python mp3funcs.py' is used from the terminal)
