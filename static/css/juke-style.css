@@ -1,0 +1,44 @@
+/* STYLE SHEET FOR JUKEBOX */
+
+.juke-background {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: #FFFFFF;
+	overflow: hidden;
+}
+
+.juke-main-panel {
+	margin-left: auto;
+	margin-right: auto;
+	height: 600px;
+	width: 1000px;
+	background-color: #3399FF; //blue
+}
+
+.juke-user-panel {
+	position: static;
+	height: 100%;
+	width: 230px;
+	background-color: #66FF66; //green
+}
+
+.juke-control-panel {
+	position: static;
+	float: right;
+	height: 100%;
+	width: 760px;;
+	background-color: #FF6666; //red
+}
+
+.juke-song-panel {
+	position: relative;
+	height: 400px;
+	width: 720px;
+	top: 120px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #CC00CC; //purple
+}
