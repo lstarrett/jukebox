@@ -11,8 +11,10 @@
 }
 
 .juke-main-panel {
+	position: relative;
 	margin-left: auto;
 	margin-right: auto;
+	top: 50px;
 	height: 600px;
 	width: 1000px;
 	background-color: #3399FF; //blue
@@ -41,4 +43,21 @@
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #CC00CC; //purple
+}
+
+// TEST
+.btn {
+  border: none;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 1.4;
+  border-radius: 4px;
+  padding: 10px 15px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transition: 0.25s linear;
+  transition: 0.25s linear;
+}
+.btn:hover,
+.btn:focus {
+  color: #ffffff;
 }
