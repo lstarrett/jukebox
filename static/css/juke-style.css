@@ -45,6 +45,25 @@
 	background-color: #CC00CC; //purple
 }
 
+/* SONG BLOCK STYLES */
+.juke-song-block {
+  border: none;
+  font-weight: normal;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transition: 0.25s linear;
+  transition: 0.25s linear;
+  white-space: normal;
+  padding: 10px 19px;
+  font-size: 17px;
+  line-height: 1.471;
+  border-radius: 6px;
+  color: #ffffff;
+  height: 51px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background-color: #0066FF;
+}
+
 /* UPLOAD BLOCK STYLES */
 .juke-upload-panel {
   border: none;
