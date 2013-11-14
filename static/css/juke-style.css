@@ -48,7 +48,7 @@
 // TEST
 .userlist {
   color: #798795;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   border-radius: 6px;
 }
 .userlist ul {
@@ -56,16 +56,16 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  border-radius: 0 0 6px 6px;
+  border-radius 0 0 6px 6px;
 }
 .userlist li {
   background: #34495e url(../images/userlist/todo.png) 92% center no-repeat;
   background-size: 20px 20px;
-  cursor: pointer;
   font-size: 14px;
   line-height: 1.214;
   margin-top: 2px;
-  //padding: 18px 42px 21px 25px;
+  //TEST
+  padding: 18px 42px 21px 25px;
   height: 75px;
   position: relative;
   -webkit-transition: 0.25s;
@@ -86,60 +86,33 @@
 .userlist li.userlist-controlling .userlist-name {
   color: #1abc9c;
 }
-.userlist-search {
+.userlist-control-btn {
   position: relative;
+  cursor: pointer;
   background: #1abc9c;
   background-size: 16px 16px;
   border-radius: 6px 6px 0 0;
   color: #34495e;
   padding: 19px 25px 20px;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
 }
-.userlist-search:before {
-  position: absolute;
-  font-family: 'Flat-UI-Icons';
-  content: "\e01c";
-  font-size: 16px;
-  line-height: 17px;
-  display: inline-block;
-  top: 50%;
-  left: 92%;
-  margin: -0.5em 0 0 -1em;
+.userlist-control-btn:hover,
+.userlist-control-btn:focus,
+.userlist-conrtol-btn:active {
+  color: #ffffff;
+  background: #76D7C4;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
 }
-input.userlist-search-field {
-  background: none;
-  border: none;
-  color: #34495e;
-  font-size: 19px;
-  font-weight: 700;
-  margin: 0;
-  line-height: 23px;
-  padding: 5px 0;
-  text-indent: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-input.userlist-search-field:-moz-placeholder {
-  color: #34495e;
-}
-input.userlist-search-field::-moz-placeholder {
-  color: #34495e;
-}
-input.userlist-search-field:-ms-input-placeholder {
-  color: #34495e;
-}
-input.userlist-search-field::-webkit-input-placeholder {
-  color: #34495e;
-}
-input.userlist-search-field.placeholder {
-  color: #34495e;
-}
-.userlist-icon {
+.userlist-user-icon {
   float: left;
   font-size: 24px;
   padding: 11px 22px 0 0;
 }
 .userlist-content {
-  padding-top: 1px;
+  padding-top: 20px;
+  padding-left: 20px;
   overflow: hidden;
 }
 .userlist-name {
