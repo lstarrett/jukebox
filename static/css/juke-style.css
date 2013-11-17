@@ -6,62 +6,36 @@
 	left: 0px;
 	height: 100%;
 	width: 100%;
-	background-color: #FFFFFF;
+	background-color: #E6E6E6;
 	overflow: hidden;
 }
 
-.juke-main-panel {
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	top: 50px;
-	height: 600px;
-	width: 1000px;
-	background-color: #3399FF; //blue
-}
-
-.juke-user-panel {
-	position: static;
-	height: 100%;
-	width: 230px;
-	background-color: #66FF66; //green
-}
-
-.juke-control-panel {
-	position: static;
-	float: right;
-	height: 100%;
-	width: 760px;;
-	background-color: #FF6666; //red
-}
-
-.juke-song-panel {
-	position: relative;
-	height: 400px;
-	width: 720px;
-	top: 120px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #CC00CC; //purple
+/* GENERIC CARD STYLE */
+.card {
+	padding:1.5rem;
+	box-shadow:0 1px 2px #aaa;
+	background:white;
+	margin:0 1rem 1rem;
+	border-radius:3px;
 }
 
 /* SONG BLOCK STYLES */
 .juke-song-block {
-  border: none;
-  font-weight: normal;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-transition: 0.25s linear;
-  transition: 0.25s linear;
-  white-space: normal;
-  padding: 10px 19px;
-  font-size: 17px;
-  line-height: 1.471;
-  border-radius: 6px;
-  color: #ffffff;
-  height: 51px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  background-color: #0066FF;
+	background: white url(../images/song/threelines.png) 92% center no-repeat;
+	-webkit-background-size: contain;
+	-moz-background-size: contain;
+	-o-background-size: contain;
+	background-size: contain;
+}
+
+.juke-song-remove-btn {
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+	float: right;
+	padding: 0;
+	height: 100%;
+	width: 50px;
+	background: #E10000;
 }
 
 /* UPLOAD BLOCK STYLES */
@@ -84,20 +58,20 @@
 
 /* USER LIST STYLES */
 .userlist {
-	color: #798795;
 	margin-bottom: 30px;
 	border-radius: 6px;
 }
 .userlist ul {
-	background-color: #2c3e50;
+	background-color: #999999;
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 	border-radius 0 0 6px 6px;
 }
 .userlist li {
-	background: #34495e url(../images/userlist/todo.png) 92% center no-repeat;
+	background-color: #FFFFFF;
 	background-size: 20px 20px;
+	: #999999;
 	font-size: 14px;
 	line-height: 1.214;
 	margin-top: 2px;
@@ -153,7 +127,7 @@
 	overflow: hidden;
 }
 .userlist-name {
-	color: #ffffff;
+	color: #999999;
 	font-size: 17px;
 	margin: 1px 0 3px;
 }
@@ -170,3 +144,4 @@
 	vertical-align: baseline;
 	border-radius: .25em;
 }
+
