@@ -19,6 +19,28 @@
 	border-radius:3px;
 }
 
+.userlist {
+}
+
+.userlist-user {
+	background: #E6E6E6;
+	height: 75px;
+}
+
+.userlist-control-btn {
+	height: 75px;
+	-webkit-transition: 0.25s;
+	transition: 0.25s;
+}
+.userlist-control-btn:hover,
+.userlist-control-btn:focus,
+.userlist-conrtol-btn:active {
+	background: #76D7C4;
+	-webkit-transition: 0.25s;
+	transition: 0.25s;
+}
+
+
 /* SONG BLOCK STYLES */
 .juke-song-block {
 	background: white url(../images/song/threelines.png) 92% center no-repeat;
@@ -40,108 +62,19 @@
 
 /* UPLOAD BLOCK STYLES */
 .juke-upload-panel {
-  border: none;
-  font-weight: normal;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-transition: 0.25s linear;
-  transition: 0.25s linear;
-  white-space: normal;
-  padding: 10px 19px;
-  font-size: 17px;
-  line-height: 1.471;
-  border-radius: 6px;
-  color: #ffffff;
-  height: 75px;
-  background-image: url(../images/uploader/upload_stripes_small.jpg);
-  background-color: #f1c40f;
-}
-
-/* USER LIST STYLES */
-.userlist {
-	margin-bottom: 30px;
-	border-radius: 6px;
-}
-.userlist ul {
-	background-color: #999999;
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	border-radius 0 0 6px 6px;
-}
-.userlist li {
-	background-color: #FFFFFF;
-	background-size: 20px 20px;
-	: #999999;
-	font-size: 14px;
-	line-height: 1.214;
-	margin-top: 2px;
-	//TEST
-	padding: 18px 42px 21px 25px;
-	height: 75px;
-	position: relative;
-	-webkit-transition: 0.25s;
-	transition: 0.25s;
-}
-.userlist li:first-child {
-	margin-top: 0;
-}
-.userlist li:last-child {
-	border-radius: 0 0 6px 6px;
-	padding-bottom: 21px;
-}
-.userlist li.userlist-controlling {
-	background: transparent url(../images/userlist/done.png) 92% center no-repeat;
-	background-size: 20px 20px;
-	color: #1abc9c;
-}
-.userlist li.userlist-controlling .userlist-name {
-	color: #1abc9c;
-}
-.userlist-control-btn {
-	position: relative;
-	cursor: pointer;
-	color: #34495e;
-	background: #1abc9c;
-	border-radius: 6px 6px 0 0;
-	padding: 19px 25px 20px;
-	height: 75px;
-	-webkit-transition: 0.25s;
-	transition: 0.25s;
-}
-.userlist-control-btn:hover,
-.userlist-control-btn:focus,
-.userlist-conrtol-btn:active {
-	color: #ffffff;
-	background: #76D7C4;
-	-webkit-transition: 0.25s;
-	transition: 0.25s;
-}
-.userlist-user-icon {
-	float: left;
-	font-size: 24px;
-	padding: 11px 22px 0 0;
-}
-.userlist-content {
-	padding-top: 20px;
-	padding-left: 20px;
-	overflow: hidden;
-}
-.userlist-name {
-	color: #999999;
+	border: none;
+	font-weight: normal;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+	white-space: normal;
+	padding: 10px 19px;
 	font-size: 17px;
-	margin: 1px 0 3px;
-}
-.userlist-control-label {
-	display: inline;
-	padding: .2em .6em .3em;
-	font-size: 75%;
-	font-weight: bold;
-	line-height: 1;
+	line-height: 1.471;
+	border-radius: 6px;
 	color: #ffffff;
-	background-color: #d9534f;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: baseline;
-	border-radius: .25em;
+	height: 75px;
+	background-image: url(../images/uploader/upload_stripes_small.jpg);
+	background-color: #f1c40f;
 }
 
