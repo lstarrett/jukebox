@@ -11,14 +11,14 @@
 		<link href="flat-ui/css/flat-ui.css" rel="stylesheet">
 	</head>
 
-	<body>
-		<div class="juke-background">
+	<body class="juke-background">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3 col-md-offset-1">
+					<div class="card userlist-control-btn">
+						Take Control
+					</div>
 					<div class="card userlist">
-						<div class="card userlist-control-btn">
-						</div>
 						<div class="card userlist-user">
 							Bob
 						</div>
@@ -37,8 +37,15 @@
 					</div>
 				</div>
 				<div class="col-md-7">
-					<div class="juke-upload-panel">
-						Drop mp3 files here
+					<div class="card upload-panel">
+						<div class="card upload-text">
+							<table>
+								<tr>
+									<td>Drop mp3 files here or</td>
+									<td><div class="card upload-btn"></div></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					<div class="card song-block">
 						Song 1
@@ -62,7 +69,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 		
 		<!-- LOAD JS SCRIPTS -->

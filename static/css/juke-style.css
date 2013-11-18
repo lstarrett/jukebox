@@ -1,41 +1,44 @@
 /* STYLE SHEET FOR JUKEBOX */
 
 .juke-background {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: #E6E6E6;
-	overflow: hidden;
+	background: #E6E6E6;
 }
 
 /* GENERIC CARD STYLE */
 .card {
-	padding:1.5rem;
-	box-shadow:0 1px 2px #aaa;
-	background:white;
-	margin:0 1rem 1rem;
-	border-radius:3px;
+	padding: 1.5rem;
+	box-shadow: 0 1px 2px #aaa;
+	background: #FFFFFF;
+	//margin: 1rem 1rem 0;
+	margin: 1rem 0;
+	border-radius: 3px;
 }
 
 .userlist {
+	padding: 1rem;
 }
 
 .userlist-user {
 	background: #E6E6E6;
-	height: 75px;
+	height: 60px;
 }
 
 .userlist-control-btn {
-	height: 75px;
+	background: #B20000;
+	color: #000000;
+	padding: 0px;
+	height: 85px;
+	text-align: center;
+	line-height: 75px;
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
 }
 .userlist-control-btn:hover,
 .userlist-control-btn:focus,
 .userlist-conrtol-btn:active {
-	background: #76D7C4;
+	cursor: pointer;
+	background: #E60000;
+	color: #333333;
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
 }
@@ -44,6 +47,7 @@
 /* SONG BLOCK STYLES */
 .song-block {
 	padding: 0px;
+	margin: 1rem 1rem 0;
 	text-align: center;
 	line-height: 50px;
 	height: 50px;
@@ -55,28 +59,58 @@
 	transition: 0.25s linear;
 	float: right;
 	padding: 0px;
-	margin: 0px;
-	border-radius: 0 3px 3px 0;
-	height: 100%;
+	margin: 5px;
+	height: 40px;
 	width: 50px;
-	background: #FF8080;
+	text-align: center;
+	line-height: 40px;
+	color: #FFFFFF;
+	background: #E6E6E6;
+}
+.song-remove-btn:hover,
+.song-remove-btn:focus,
+.song-remove-btn:active {
+	cursor: pointer;
+	background: #B20000;
+	-webkit-transition: 0.25s;
+	transition: 0.25s;
 }
 
 /* UPLOAD BLOCK STYLES */
-.juke-upload-panel {
-	border: none;
-	font-weight: normal;
-	-webkit-font-smoothing: subpixel-antialiased;
-	-webkit-transition: 0.25s linear;
-	transition: 0.25s linear;
-	white-space: normal;
-	padding: 10px 19px;
-	font-size: 17px;
-	line-height: 1.471;
-	border-radius: 6px;
-	color: #ffffff;
-	height: 75px;
-	background-image: url(../images/uploader/upload_stripes_small.jpg);
-	background-color: #f1c40f;
+.upload-panel {
+	height: 85px;
+	background: linear-gradient(45deg, white 25%, #B2B2B2 25%, #B2B2B2 50%, white 50%, white 75%, #B2B2B2 75%, #B2B2B2);
+	background-size: 50px 50px;
 }
 
+.upload-text {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	box-shadow: 0 0 0 #aaa; 
+}
+
+.upload-btn {
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+	//float: right;
+	padding: 0px;
+	margin: 5px;
+	height: 100%;
+	width: 50px;
+	background: #B20000;
+}
+
+/* SUNKEN TEXT EFFECT STYLES */
+.depth {
+	position: relative;
+}
+
+.depth:before, .depth:after {
+	content: attr(title);
+	color: rgba(255,255,255,.1);
+	position: absolute;
+}
+
+.depth:before { top: 1px; left: 1px }
+.depth:after  { top: 2px; left: 2px }
