@@ -6,9 +6,10 @@
 		<title>JukeBox</title>
 
 		<!-- STYLING -->
-		<link href="css/juke-style.css" rel="stylesheet">
 		<link href="flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet">
-		<!--<link href="flat-ui/css/flat-ui.css" rel="stylesheet">-->
+		<link href="flat-ui/css/flat-ui.css" rel="stylesheet">
+		<link href="avgrund/style/avgrund.css" rel="stylesheet">
+		<link href="css/juke-style.css" rel="stylesheet">
 	</head>
 
 	<body class="juke-background">
@@ -16,7 +17,7 @@
 			<div class="row">
 				<div class="col-md-3 col-md-offset-1">
 					<div class="juke-heightframe">
-					<div class="card userlist-control-btn">TAKE CONTROL</div>
+					<div href="#" class="card userlist-control-btn" id="participate">TAKE CONTROL</div>
 					<div class="card userlist">
 						<div class="card userlist-user">
 							Bob
@@ -72,7 +73,9 @@
 						Song 6
 						<div class="card song-remove-btn">X</div>
 					</div>
-					<div class="card music-controls">
+					<div class="card music-control-panel">
+						<span class="fui-play"></span>
+						<span class="fui-pause"></span>
 					</div>
 				</div>
 				</div>
@@ -82,6 +85,26 @@
 		<!-- LOAD JS SCRIPTS -->
 		<script src="js/jquery/jquery-2.0.3.min.js"></script>
 		<script src="js/jukebox.js"></script>
+
+
+		<script src="avgrund/jquery.avgrund.js"></script>
+		<script>
+		$(function() {
+			$('#participate').avgrund({
+				height: 230,
+				holderClass: 'card',
+				onBlurContainer: '.container',
+				template: '    <div class="card welcome-modal">WELCOME!</div>' +
+				          '    <div class="form-group">' +
+				          '        <input type="text" value placeholder="Nickname" class="form-control">' +
+				          '    </div>' +
+						  '    <div class="form-group has-success">' +
+				          '        <input type="text" value placeholder="Channel Password" class="form-control">' +
+						  '        <span class="input-icon fui-check-inverted"></span>' +
+				          '    </div>'
+			});
+		});
+		</script>
 
 	</body>
 

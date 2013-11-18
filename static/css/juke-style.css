@@ -19,6 +19,16 @@
 	border-radius: 3px;
 }
 
+.welcome-modal {
+	height: 85px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	line-height: 85px;
+	color: #FFFFFF;
+	background: #5C85FF;
+}
+
 .userlist {
 	padding: 1rem;
 	height: 395px;
@@ -85,7 +95,7 @@
 /* UPLOAD BLOCK STYLES */
 .upload-panel {
 	height: 85px;
-	background: linear-gradient(45deg, white 25%, #B2B2B2 25%, #B2B2B2 50%, white 50%, white 75%, #B2B2B2 75%, #B2B2B2);
+	background: linear-gradient(45deg, white 25%, #CCCCCC 25%, #CCCCCC 50%, white 50%, white 75%, #CCCCCC 75%, #CCCCCC);
 	background-size: 50px 50px;
 }
 
@@ -117,14 +127,37 @@
 }
 
 /* MUSIC CONTROLS STYLES */
-.music-controls {
+.music-control-panel {
 	width: 100%;
 	height: 85px;
 	position: absolute;
 	bottom: 0;
 	z-index: -1;
-	//background: #5959FF;
-	background: #CCCCCC;
+	padding: 50px 20px 0;
+	//border: 2px solid #5C85FF;
+	background: #5C85FF;
+	//background: #CCCCCC;
+}
+
+.music-control-panel > span {
+	display: inline-block;
+	width: 25px;	
+	color: white;
+}
+
+/* FORM CONTROL OVERRIDES */
+.form-group {
+	margin: 1.5rem 0 0 0;
+}
+
+.form-control {
+	//box-shadow: 0 1px 2px #aaa;
+	border-radius: 3px;
+	border: 2px solid #CCCCCC;
+}
+
+.form-control:focus {
+	border-color: #5C85FF;
 }
 
 /* SUNKEN TEXT EFFECT STYLES */
