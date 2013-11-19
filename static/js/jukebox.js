@@ -1,4 +1,4 @@
-// Userlist state change
-$(".userlist li").click(function() {
-	$(this).toggleClass("userlist-controlling");
+// Rearrangeable songs
+$(function() {
+	$('#sortable').sortable();
 });

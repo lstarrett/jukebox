@@ -61,14 +61,24 @@
 
 
 /* SONG BLOCK STYLES */
-.song-block {
+.song-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.song-block, .sortable-placeholder {
 	padding: 0px;
 	margin: 1rem 1rem 0;
 	text-align: center;
 	line-height: 50px;
 	height: 50px;
-	//background: white url(../images/song/threelines.png) 92% center no-repeat;
 }
+.song-block:hover,
+.song-block:focus,
+.song-block:active {
+	//box-shadow: 0 4px 8px #aaa;
+}	
 
 .song-remove-btn {
 	-webkit-transition: 0.25s linear;
@@ -80,13 +90,15 @@
 	width: 50px;
 	text-align: center;
 	line-height: 40px;
-	color: #FFFFFF;
-	background: #C13333;
+	color: #B20000;
+	box-shadow: 0 1px 2px #B20000;
+	background: #CCCCCC;
 }
 .song-remove-btn:hover,
 .song-remove-btn:focus,
 .song-remove-btn:active {
 	cursor: pointer;
+	color: #FFFFFF;
 	background: #B20000;
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
@@ -135,7 +147,7 @@
 	bottom: 0;
 	z-index: -1;
 	padding: 50px 20px 0;
-	//border: 2px solid #5C85FF;
+	//border: 1px solid #5C85FF;
 	//background: #5C85FF;
 	background: #CCCCCC;
 }

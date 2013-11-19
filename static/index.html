@@ -49,6 +49,33 @@
 							</table>
 						</div>
 					</div>
+					<ul id="sortable" class="song-list">
+						<li class="card song-block">
+							Song 1
+							<div class="card song-remove-btn">X</div>
+						</li>
+						<li class="card song-block">
+							Song 2
+							<div class="card song-remove-btn">X</div>
+						</li>
+						<li class="card song-block">
+							Song 3
+							<div class="card song-remove-btn">X</div>
+						</li>
+						<li class="card song-block">
+							Song 4
+							<div class="card song-remove-btn">X</div>
+						</li>
+						<li class="card song-block">
+							Song 5
+							<div class="card song-remove-btn">X</div>
+						</li>
+						<li class="card song-block">
+							Song 6
+							<div class="card song-remove-btn">X</div>
+						</li>
+					</ul>
+					<!-- DEBUG: old version, try to use sortable list
 					<div class="card song-block">
 						Song 1
 						<div class="card song-remove-btn">X</div>
@@ -72,7 +99,8 @@
 					<div class="card song-block">
 						Song 6
 						<div class="card song-remove-btn">X</div>
-					</div>
+					</div>-->
+
 					<div class="card music-control-panel">
 						<span class="fui-play"></span>
 						<span class="fui-pause"></span>
@@ -84,10 +112,11 @@
 		
 		<!-- LOAD JS SCRIPTS -->
 		<script src="js/jquery/jquery-2.0.3.min.js"></script>
+		<script src="js/jquery/jquery.sortable.min.js"></script>
+		<script src="avgrund/jquery.avgrund.js"></script>
 		<script src="js/jukebox.js"></script>
 
-
-		<script src="avgrund/jquery.avgrund.js"></script>
+		<!-- TODO: move this script to jukebox.js -->
 		<script>
 		$(function() {
 			$('#participate').avgrund({
