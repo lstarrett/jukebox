@@ -101,17 +101,18 @@
 
 .upload-text {
 	margin: 0px;
-	padding: 0px;
+	padding: 3px 0;
 	height: 100%;
 	box-shadow: 0 0 0 #aaa; 
+	color: #CCCCCC;
 }
 
 .upload-btn {
 	padding: 0 15px 0 15px;
 	margin: 5px;
-	height: 42px;
+	height: 36px;
 	text-align: center;
-	line-height: 42px;
+	line-height: 36px;
 	color: #FFFFFF;
 	background: #C13333;
 	-webkit-transition: 0.25s linear;
@@ -135,14 +136,14 @@
 	z-index: -1;
 	padding: 50px 20px 0;
 	//border: 2px solid #5C85FF;
-	background: #5C85FF;
-	//background: #CCCCCC;
+	//background: #5C85FF;
+	background: #CCCCCC;
 }
 
 .music-control-panel > span {
 	display: inline-block;
 	width: 25px;	
-	color: white;
+	color: #FFFFFF;
 	text-shadow: 0 1px 2px #aaa;
 }
 
