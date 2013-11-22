@@ -5,7 +5,6 @@
 #
 # AUTHORS: Lucas Starret, Jason Salter
 
-
 def main():
 	# Main won't be used in the finished project, use here for testing
 	testmp3func()
@@ -17,7 +16,8 @@ def mp3func():
 	print "Hello, world!"
 	print "moosic is fun"
 
-
+def playPause():
+	print "yay"
 
 # MAIN (call main automatically when 'python mp3funcs.py' is used from the terminal)
 if __name__ == '__main__':
