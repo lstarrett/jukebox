@@ -3,29 +3,28 @@ import json
 
 urls = (
 	'/', 'INDEX',
-	'/js/(.*)','SERVE_JS',
-	'/css/(.*)','SERVE_CSS'
+	'/(css|js|fonts)/(.*)', 'SERVE_STATIC',
+	'/sync', 'SYNC'
 )
 
-# renders the initial html file upon load
+# serve index.html
 class INDEX:
 	def GET(self):
-		print "hello, I'm here"
-		#render = web.template.render("../static/")
-		render = web.template.render("")
+		render = web.template.render("../static/")
 		return render.index()
 
-# serves js files upon load (included in html. basis of client side operations)
-class SERVE_JS:
-	def GET(self, url):
-		script = open("../static/js/"+url,"r")
-		return script.read()
+# serves static files
+class SERVE_STATIC:
+	def GET(self, media, url):
+		static = open("../static/" + media + "/" + url, "r")
+		return static.read()
 
-# serves css files upon load. Used for styling (bootstrap)
-class SERVE_CSS:
-	def GET(self, url):
-		script = open("../static/css/"+url,"r")
-		return script.read()
+class SYNC:
+	def GET(self):
+		print "GET reqeust received, send state data to client"
+	
+	def POST(self):
+		print "POST reqeust received, update server state data"
 
 
 if __name__ == '__main__':
