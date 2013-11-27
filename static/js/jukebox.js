@@ -3,6 +3,7 @@ $(function() {
 	$('#sortable').sortable();
 });
 
+// Display modal dialog using Avgrund
 $(function() {
 	$('#participate').avgrund({
 		height: 230,
@@ -16,4 +17,8 @@ $(function() {
 		          '        <span class="input-icon fui-check-inverted"></span>' +
 		          '    </div>'
 	});
+});
+
+$("#upload").click(function() {
+	$("#chooser").click();
 });

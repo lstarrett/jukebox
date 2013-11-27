@@ -4,7 +4,8 @@ import json
 urls = (
 	'/', 'INDEX',
 	'/(css|js|fonts)/(.*)', 'SERVE_STATIC',
-	'/sync', 'SYNC'
+	'/sync', 'SYNC',
+	'/upload', 'UPLOAD'
 )
 
 # serve index.html
@@ -21,10 +22,14 @@ class SERVE_STATIC:
 
 class SYNC:
 	def GET(self):
-		print "GET reqeust received, send state data to client"
+		print "SYNC GET reqeust received, send state data to client"
 	
 	def POST(self):
-		print "POST reqeust received, update server state data"
+		print "SYNC POST reqeust received, update server state data"
+
+class UPLOAD:
+	def POST(self):
+		print "UPLOAD request received, move mp3 to server"
 
 
 if __name__ == '__main__':
