@@ -39,7 +39,7 @@
 				</div>
 				<div class="col-md-7">
 					<div class="juke-heightframe">
-					<div class="card upload-panel">
+					<div class="card upload-panel" id="drop">
 						<div class="card upload-text">
 							<table align="center">
 								<tr>
@@ -47,60 +47,27 @@
 									<td><div class="card upload-btn" id="upload">UPLOAD</div></td>
 								</tr>
 							</table>
-							<input name="file" type="file" id="chooser" style="visibility:hidden"/>
+							<form method="POST" enctype="multipart/form-data" id=fileform" action="upload">
+								<input name="mp3file" type="file" id="chooser" style="visibility:hidden"/>
+								<input type="submit" id="chooser-submit" style="visibility:hidden"/>
+							</form>
 						</div>
 					</div>
-					<ul id="sortable" class="song-list">
-						<li class="card song-block">
-							Song 1
-							<div class="card song-remove-btn">X</div>
-						</li>
-						<li class="card song-block">
-							Song 2
-							<div class="card song-remove-btn">X</div>
-						</li>
-						<li class="card song-block">
-							Song 3
-							<div class="card song-remove-btn">X</div>
-						</li>
-						<li class="card song-block">
-							Song 4
-							<div class="card song-remove-btn">X</div>
-						</li>
-						<li class="card song-block">
-							Song 5
-							<div class="card song-remove-btn">X</div>
-						</li>
-						<li class="card song-block">
-							Song 6
-							<div class="card song-remove-btn">X</div>
-						</li>
+					<ul id="placeholders" class="song-list">
+						<li class="card song-block" style="visibility:hidden"></li>
+						<li class="card song-block" style="visibility:hidden"></li>
+						<li class="card song-block" style="visibility:hidden"></li>
+						<li class="card song-block" style="visibility:hidden"></li>
+						<li class="card song-block" style="visibility:hidden"></li>
+						<li class="card song-block" style="visibility:hidden"></li>
+						<!--<li class="card song-block">1</li>
+						<li class="card song-block">2</li>
+						<li class="card song-block">3</li>
+						<li class="card song-block">4</li>
+						<li class="card song-block">5</li>
+						<li class="card song-block">6</li>-->
 					</ul>
-					<!-- DEBUG: old version, try to use sortable list
-					<div class="card song-block">
-						Song 1
-						<div class="card song-remove-btn">X</div>
-					</div>
-					<div class="card song-block">
-						Song 2
-						<div class="card song-remove-btn">X</div>
-					</div>
-					<div class="card song-block">
-						Song 3
-						<div class="card song-remove-btn">X</div>
-					</div>
-					<div class="card song-block">
-						Song 4
-						<div class="card song-remove-btn">X</div>
-					</div>
-					<div class="card song-block">
-						Song 5
-						<div class="card song-remove-btn">X</div>
-					</div>
-					<div class="card song-block">
-						Song 6
-						<div class="card song-remove-btn">X</div>
-					</div>-->
+					<ul id="sortable" class="song-list"></ul>
 
 					<div class="card music-control-panel">
 						<span class="fui-play"></span>

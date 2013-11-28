@@ -29,7 +29,14 @@ class SYNC:
 
 class UPLOAD:
 	def POST(self):
-		print "UPLOAD request received, move mp3 to server"
+		uploaded = web.input(mp3file={})
+#		web.debug(uploaded['mp3file'].filename) # This is the filename
+#		web.debug(uploaded['mp3file'].value) # This is the file contents
+#		web.debug(uploaded['mp3file'].file.read()) # Or use a file(-like) object
+#		data.saveFile(uploaded['mp3file'].filename, uploaded['mp3file'].file)
+		with open(uploaded['mp3file'].filename, 'w') as music:
+		    music.write(uploaded['mp3file'].value)
+		raise web.seeother('/')
 
 
 if __name__ == '__main__':
