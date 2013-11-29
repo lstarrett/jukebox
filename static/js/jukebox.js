@@ -1,37 +1,46 @@
-// Rearrangeable songs
+// Object that contains all the state information of the jukebox
+// which is distributed to all clients
+var state;
+
+
+
+// Make songs rearrangeable
 $(function() {
 	$('#sortable').sortable();
 });
 
-// Display modal dialog using Avgrund
-$(function() {
-	$('#participate').avgrund({
-		height: 230,
-		holderClass: 'card',
-		template: '    <div class="card welcome-modal">WELCOME!</div>' +
-		          '    <div class="form-group">' +
-		          '        <input type="text" value placeholder="Nickname" class="form-control">' +
-		          '    </div>' +
-		          '    <div class="form-group has-success">' +
-		          '        <input type="text" value placeholder="Channel Password" class="form-control">' +
-		          '        <span class="input-icon fui-check-inverted"></span>' +
-		          '    </div>'
-	});
-});
-
-
-// Shift list items down when a new one is added
-function prependListItem(listName, listItemHTML){
+// Add new song
+function addSong(listItem){
 	$("#placeholders li:first-child")
-		.slideUp('fast', function() { $(this).remove() })
-	$(listItemHTML)
-		.hide()
+		.remove()
+	$(listItem)
 		.css('opacity',0.0)
-		.prependTo('#' + listName)
-		.slideDown('fast')
+		.prependTo('#sortable')
 		.animate({opacity: 1.0})
 }
 
+// Remove a song
+function removeSong(listItem){
+	var placeholder = document.createElement("li");
+	placeholder.className = 'card song-block';
+	placeholder.style.visibility = 'hidden';
+	$(listItem)
+		.animate({opacity: 0.0}, function() {
+			$(listItem)
+				.slideUp('fast', function() {
+					this.remove()
+				})
+			$(placeholder)
+				.hide()
+				.prependTo('#placeholders')
+				.slideDown('fast')
+		})
+}
+
+// Display file chooser when upload button is clicked
+$(document).on('click', '.song-remove-btn', function(){
+	removeSong($(this).parent());
+});
 
 // Display file chooser when upload button is clicked
 $("#upload").click(function() {
@@ -39,8 +48,8 @@ $("#upload").click(function() {
 	// add an item to the list, just to see it work
 	var item = document.createElement("li");
 	item.className = 'card song-block';
-	item.innerHTML = 'Song 6<div class="card song-remove-btn">X</div>'
-	prependListItem('sortable', item);
+	item.innerHTML = 'Song 6<div class="card song-remove-btn" id="foo">X</div>'
+	addSong(item);
 	$('#sortable').sortable();
 });
 
@@ -48,8 +57,7 @@ $("#upload").click(function() {
 $("#chooser").change(function() {
 	$("#chooser-submit").click();
 
-
-
+	// TODO: I wish uploads worked over ajax. It would be cleaner.
 	/*alert("chooser has a file!");
 	//var file = this.files[0];
 	//var formData = new FormData($("#fileform")[0]);
@@ -75,3 +83,18 @@ $("#chooser").change(function() {
 	});*/
 });
 
+// Display modal dialog using Avgrund
+$(function() {
+	$('#participate').avgrund({
+		height: 230,
+		holderClass: 'card',
+		template: '    <div class="card welcome-modal">WELCOME!</div>' +
+		          '    <div class="form-group">' +
+		          '        <input type="text" value placeholder="Nickname" class="form-control">' +
+		          '    </div>' +
+		          '    <div class="form-group has-success">' +
+		          '        <input type="text" value placeholder="Channel Password" class="form-control">' +
+		          '        <span class="input-icon fui-check-inverted"></span>' +
+		          '    </div>'
+	});
+});

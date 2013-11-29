@@ -8,6 +8,10 @@ urls = (
 	'/upload', 'UPLOAD'
 )
 
+# State which is synced between clients
+state = { 'contolling':'none', 'users':{ 'u1':'none', 'u2':'none', 'u3':'none', 'u4':'none', 'u5':'none' }, 'songs':{ 's1':'none', 's2':'none', 's3':'none', 's4':'none', 's5':'none', 's6':'none' } }
+
+
 # serve index.html
 class INDEX:
 	def GET(self):
@@ -23,6 +27,8 @@ class SERVE_STATIC:
 class SYNC:
 	def GET(self):
 		print "SYNC GET reqeust received, send state data to client"
+		web.header('Content-Type', 'application/json')
+		return json.dumps(state)
 	
 	def POST(self):
 		print "SYNC POST reqeust received, update server state data"
