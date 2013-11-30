@@ -2,6 +2,47 @@
 // which is distributed to all clients
 var state;
 
+setInterval(function() {
+	$.getJSON('sync', function(data) {
+		state = data;
+		console.log(JSON.stringify(state));
+		console.log(state.controlling);
+	});
+	setupSongs();
+	setupUsers();
+}, 2000);
+
+// Setup songs
+function setupSongs() {
+	$('#sortable').empty();
+	$('#placeholders').empty();
+
+	for (var i = 0; i < 6; i++) {
+		var placeholder = document.createElement("li");
+		placeholder.className = 'card song-block';
+		placeholder.style.visibility = 'hidden';
+		$(placeholder).prependTo('#placeholders');
+	}
+
+	for (var i = 0; i < state.songs.length; i++) {
+		$('#placeholders li:first-child').remove();
+		var song = document.createElement("li");
+		song.className = 'card song-block';
+		song.innerHTML = state.songs[i] + '<div class="card song-remove-btn" id="foo">X</div>';
+		$(song).prependTo('#sortable');
+	}
+}
+
+// Setup users
+function setupUsers() {
+	$('#userlist').empty();
+	for (var i = 0; i < state.users.length; i++) {
+		var user = document.createElement("li");
+		user.className = 'card userlist-user';
+		user.innerHTML = state.users[i];
+		$(user).prependTo('#userlist');
+	}
+}
 
 
 // Make songs rearrangeable

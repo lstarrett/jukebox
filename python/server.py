@@ -9,7 +9,7 @@ urls = (
 )
 
 # State which is synced between clients
-state = { 'contolling':'none', 'users':{ 'u1':'none', 'u2':'none', 'u3':'none', 'u4':'none', 'u5':'none' }, 'songs':{ 's1':'none', 's2':'none', 's3':'none', 's4':'none', 's5':'none', 's6':'none' } }
+state = { 'controlling':'foo', 'users':["Bob","Rutherford","Shawntelle","Keith"], 'songs':["Song 1", "Song 40", "Song Poop"] }
 
 
 # serve index.html

@@ -30,6 +30,7 @@
 }
 
 .userlist {
+	list-style-type: none;
 	padding: 1rem;
 	height: 395px;
 }
