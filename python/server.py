@@ -46,9 +46,8 @@ class SYNC:
 			print "DEBUG: this is a known user, NOT controlling. Resetting keep-alive"
 			keep_alives[key] = 100
 		elif ('controlling' in key): # simple sanity check for good JSON data
-			print "DEBUG: this is a known user, CONTROLLING. Syncing state data with user and resetting keep-alive"
-			keep_alives[state['controlling']] = 100
-			if (state['controlling'] == 'none'):
+			print "###########################"
+			if (state['controlling'] == 'none'): # available for any user to take control
 				state = json.loads(key)
 				print "DEBUG: known user is passing JSON data with controlling:none"
 			elif (json.loads(key)['controlling'] == state['controlling']): # available for same user to continue controlling
