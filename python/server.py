@@ -46,10 +46,18 @@ class SYNC:
 			print "DEBUG: this is a known user, NOT controlling. Resetting keep-alive"
 			keep_alives[key] = 100
 		elif ('controlling' in key): # simple sanity check for good JSON data
-			print "DEBUG: this is a known user, CONTROLLING. Syncing state data with user and resetting keep-alive"
-			keep_alives[state['controlling']] = 100
-			if (state['controlling'] == 'none':
+			print "###########################"
+			if (state['controlling'] == 'none'): # available for any user to take control
 				state = json.loads(key)
+				print "DEBUG: known user is passing JSON data with controlling:none"
+			elif (json.loads(key)['controlling'] == state['controlling']): # available for same user to continue controlling
+				print "DEBUG: known user is passing JSON data with controlling:me"
+				state = json.loads(key)
+				keep_alives[state['controlling']] = 100
+			elif (json.loads(key)['controlling'] == 'release'): # release control and return to available state
+				print "DEBUG: known user is passing JSON data with controlling:release"
+				state['controlling'] = 'none'
+			print "###########################"
 		elif (key.isalnum() and len(key) < 15): # check for sanitized data and add to users
 			print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
 			state['users'].append(key)
@@ -58,7 +66,7 @@ class SYNC:
 		# subtract some "time" from each user's keepalive value. Note that this is NOT real time, and "time" only
 		# decreases when at least one user is online syncing with the server.
 		print "================KEEP ALIVE DIAGNOSTIC================="
-		keep_alives.update((user, time - 20) for user, time in keep_alives.items())
+		keep_alives.update((user, time - (20 / len(state['users']))) for user, time in keep_alives.items())
 		for user, time in keep_alives.items():
 			print "user: " + user + ", time: " + str(time)
 			if (time <= 0):
