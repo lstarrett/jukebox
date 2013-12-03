@@ -146,75 +146,33 @@ $(document).ready(function() {
 	// Display file chooser when upload button is clicked
 	$("#upload").click(function() {
 		$("#chooser").click();
-		// add an item to the list, just to see it work
-//		var item = document.createElement("li");
-//		item.id = 'Uploaded Song';
-//		item.className = 'card song-block';
-//		item.innerHTML = item.id + '<div class="card song-remove-btn">X</div>'
-//		addSong(item);
-//		$('#sortable').sortable();
 	});
 	
-	// When a file is chosen, push it to the server
-//	$("#chooser").change(function() {
-//		//$("#chooser-submit").click();
-//	
-//		// TODO: I wish uploads worked over ajax. It would be cleaner.
-//		//alert("chooser has a file!");
-//		//var file = this.files[0];
-//		//var formData = new FormData($("#fileform")[0]);
-//		var formData = new FormData($('#fileform')[0]);
-//		$.ajax({
-//			url: 'upload',
-//			type: 'POST',
-//			xhr: function() {  // Custom XMLHttpRequest
-//				var myXhr = $.ajaxSettings.xhr();
-//				/*if(myXhr.upload){ // Check if upload property exists
-//					myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-//				}*/
-//				return myXhr;
-//			},
-//			success: null,
-//			error: function(xhr, status) {
-//				alert(xhr.status)
-//			},
-//			data: formData,
-//			cache: false,
-//			contentType: false,
-//			processData: false,
-//		});//*/
-//	});
-
-//DEBUG!!!!!!!!!!!! NEW VERSION OF UPLOADER
-	// Initialize the jQuery File Upload plugin
+	// Initialize the jQuery File Upload plugin for the upload form
 	$('#upload-form').fileupload({
-		// This element will accept file drag/drop uploading
 		dropZone: $('#drop'),
-	
-		// This function is called when a file is added to the queue;
-		// either via the browse button, or via drag/drop:
 		add: function (e, data) {
+			// Create a new song for this file
+			console.log("===============DEBUG: creating new song");
+			var song = document.createElement("li");
+			song.className = 'card song-block';
+			song.innerHTML = data.files[0].name + '<div class="card song-remove-btn">X</div>';
+			addSong(song);
+
 			// Automatically upload the file once it is added to the queue
 			var jqXHR = data.submit();
 		},
-	
 		progress: function(e, data){
-	
-			// Calculate the completion percentage of the upload
 			var progress = parseInt(data.loaded / data.total * 100, 10);
 			console.log("DEBUG UL!!!!!!!!!!!!!!!!!!: " + progress);
 	
 		},
-	
 		fail:function(e, data){
 			// Something has gone wrong!
-			alert("shit.");
+			alert("File failed to upload.");
 		}
 	
 	});
-//ENDDEBUG!!!!!!!!!!!! NEW VERSION OF UPLOADER
-
-
 	
 	// Participate dialog
 	$(function() {
