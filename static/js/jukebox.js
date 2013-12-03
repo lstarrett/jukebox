@@ -20,31 +20,35 @@ $(document).ready(function() {
 		}
 		$.getJSON('sync', control, function(data) {
 			state = data;
+			if (me != 'spectator') {
+				if (state.controlling == me) {
+					$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
+					$('#participate').html('RELEASE CONTROL');
+					console.log("        DEBUG: sync finalized, I'm in control");
+				}
+				else if (state.controlling != 'none') {
+					controlling = false;
+					$('#participate').addClass('control-disabled').removeClass('controlling').removeClass('take-control');
+					$('#participate').html(state.controlling + ' Controlling');
+					console.log("        DEBUG: sync said someone else is already controlling, disabling button");
+				}
+				else {
+					controlling = false;
+					$('#participate').addClass('take-control').removeClass('control-disabled').removeClass('controlling');
+					$('#participate').html('TAKE CONTROL');
+					console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
+				}
+			}
+			if (state != null && !controlling) {
+				setupSongs();
+				setupUsers();
+			}
 		});
-		if (me != 'spectator') {
-			if (state.controlling == me) {
-				$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
-				$('#participate').html('RELEASE CONTROL');
-				console.log("        DEBUG: sync finalized, I'm in control");
-			}
-			else if (state.controlling != 'none') {
-				controlling = false;
-				$('#participate').addClass('control-disabled').removeClass('controlling').removeClass('take-control');
-				$('#participate').html(state.controlling + ' Controlling');
-				console.log("        DEBUG: sync said someone else is already controlling, disabling button");
-			}
-			else {
-				controlling = false;
-				$('#participate').addClass('take-control').removeClass('control-disabled').removeClass('controlling');
-				$('#participate').html('TAKE CONTROL');
-				console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
-			}
-		}
 		if (state != null && !controlling) {
 			setupSongs();
 			setupUsers();
 		}
-	}, 2000);
+	}, 1000);
 	
 	// Setup songs
 	function setupSongs() {
@@ -128,7 +132,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on('click', '.controlling', function(){
-		state.controlling = 'none';
+		state.controlling = 'release';
 		controlling = true;
 		$('#participate').html('RELEASING CONTROL...');
 		console.log("    DEBUG: releasing control, waiting for sync to finalize");
@@ -141,14 +145,14 @@ $(document).ready(function() {
 	
 	// Display file chooser when upload button is clicked
 	$("#upload").click(function() {
-		//$("#chooser").click();
+		$("#chooser").click();
 		// add an item to the list, just to see it work
-		var item = document.createElement("li");
-		item.id = 'Uploaded Song';
-		item.className = 'card song-block';
-		item.innerHTML = item.id + '<div class="card song-remove-btn">X</div>'
-		addSong(item);
-		$('#sortable').sortable();
+//		var item = document.createElement("li");
+//		item.id = 'Uploaded Song';
+//		item.className = 'card song-block';
+//		item.innerHTML = item.id + '<div class="card song-remove-btn">X</div>'
+//		addSong(item);
+//		$('#sortable').sortable();
 	});
 	
 	// When a file is chosen, push it to the server
