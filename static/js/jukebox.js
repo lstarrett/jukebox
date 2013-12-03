@@ -4,7 +4,7 @@ $(document).ready(function() {
 	// Object that contains all the state information of the jukebox
 	// which is distributed to all clients
 	var state = null;
-	var me = 'none';
+	var me = 'spectator';
 	var controlling = false;
 	
 	// Intitial sync with server, then routine update polling
@@ -14,18 +14,37 @@ $(document).ready(function() {
 	});
 	setInterval(function() {
 		var control = me;
+		console.log("DEBUG!!: control (should equal me or spectator) is: " + control);
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
-			console.log("DEBUG: apparently this guy is in control");//DEBUG
 		}
 		$.getJSON('sync', control, function(data) {
 			state = data;
 		});
-		if (!controlling) {
+		if (me != 'spectator') {
+			if (state.controlling == me) {
+				$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
+				$('#participate').html('RELEASE CONTROL');
+				console.log("        DEBUG: sync finalized, I'm in control");
+			}
+			else if (state.controlling != 'none') {
+				controlling = false;
+				$('#participate').addClass('control-disabled').removeClass('controlling').removeClass('take-control');
+				$('#participate').html(state.controlling + ' Controlling');
+				console.log("        DEBUG: sync said someone else is already controlling, disabling button");
+			}
+			else {
+				controlling = false;
+				$('#participate').addClass('take-control').removeClass('control-disabled').removeClass('controlling');
+				$('#participate').html('TAKE CONTROL');
+				console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
+			}
+		}
+		if (state != null && !controlling) {
 			setupSongs();
 			setupUsers();
 		}
-	}, 5000);
+	}, 2000);
 	
 	// Setup songs
 	function setupSongs() {
@@ -55,7 +74,7 @@ $(document).ready(function() {
 			var user = document.createElement("li");
 			user.className = 'card userlist-user';
 			user.innerHTML = state.users[i];
-			$(user).prependTo('#userlist');
+			$(user).appendTo('#userlist');
 		}
 	}
 	
@@ -101,7 +120,21 @@ $(document).ready(function() {
 			})
 	}
 	
-	// Display file chooser when upload button is clicked
+	$(document).on('click', '.take-control', function(){
+		state.controlling = me;
+		controlling = true;
+		$('#participate').html('WAITING...');
+		console.log("    DEBUG: taking control, waiting for sync to finalize");
+	});
+
+	$(document).on('click', '.controlling', function(){
+		state.controlling = 'none';
+		controlling = true;
+		$('#participate').html('RELEASING CONTROL...');
+		console.log("    DEBUG: releasing control, waiting for sync to finalize");
+	});
+
+	// Remove a song when 'X' on song block is clicked
 	$(document).on('click', '.song-remove-btn', function(){
 		removeSong($(this).parent());
 	});
@@ -175,6 +208,17 @@ $(document).ready(function() {
 					// Add user and change "participate" to "take control"
 					console.log("Welcome!");//DEBUG
 					me = nickname;
+					$('#participate').replaceWith('<div id="participate" class="card userlist-btn"></div>');
+					if (state != null && state.controlling != 'none') {
+						console.log("DEBUG: signed in and someone else is controlling");
+						$('#participate').addClass('control-disabled');
+						$('#participate').html(state.controlling + ' Controlling');
+					}
+					else {
+						console.log("DEBUG: signed in, should see take control");
+						$('#participate').addClass('take-control');
+						$('#participate').html('TAKE CONTROL');
+					}
 				}
 			}, 100); // check 10x per second
 		});

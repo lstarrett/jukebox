@@ -41,8 +41,7 @@
 	margin: 0 0 1rem 0;
 }
 
-.userlist-control-btn {
-	background: #C13333;
+.userlist-btn {
 	color: #FFFFFF;
 	padding: 0px;
 	height: 85px;
@@ -51,13 +50,39 @@
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
 }
-.userlist-control-btn:hover,
-.userlist-control-btn:focus,
-.userlist-conrtol-btn:active {
+.userlist-btn:hover,
+.userlist-btn:focus,
+.userlist-btn:active {
 	cursor: pointer;
-	background: #B20000;
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
+}
+.participate {
+	background: #5C85FF;
+}
+.participate:hover,
+.participate:focus,
+.participate:active {
+	background: #4A6ACC;
+}
+.take-control {
+	background: #C13333;
+}
+.take-control:hover,
+.take-control:focus,
+.take-control:active {
+	background: #B20000;
+}
+.controlling {
+	background: #C13333;
+}
+.controlling:hover,
+.controlling:focus,
+.controlling:active {
+	background: #B20000;
+}
+.control-disabled {
+	background: #CCCCCC;
 }
 
 

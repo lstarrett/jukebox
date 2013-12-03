@@ -16,6 +16,11 @@ state = { 'controlling':'none', 'users':[], 'songs':[] }
 # State which is synced between clients
 keep_alives = {}
 
+def endSong():
+	# TODO: notify client GUIs that the song is done
+	print "Jason's code just sent an end of song notification. Client GUI's will be notified when I finish this."
+
+
 # serve index.html
 class INDEX:
 	def GET(self):
@@ -35,15 +40,16 @@ class SYNC:
 
 		# extract client request data and process it
 		key, value = web.input().popitem()
-		if (key == 'none'): # continue, this is just a spectator
-			print "DEBUG: 'none' received, this is a spectator"
+		if (key == 'spectator'): # continue, this is just a spectator
+			print "DEBUG: 'spectator' received, this is a spectator"
 		elif (key in state['users']):
 			print "DEBUG: this is a known user, NOT controlling. Resetting keep-alive"
 			keep_alives[key] = 100
 		elif ('controlling' in key): # simple sanity check for good JSON data
 			print "DEBUG: this is a known user, CONTROLLING. Syncing state data with user and resetting keep-alive"
-			state = json.loads(key)
 			keep_alives[state['controlling']] = 100
+			if (state['controlling'] == 'none':
+				state = json.loads(key)
 		elif (key.isalnum() and len(key) < 15): # check for sanitized data and add to users
 			print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
 			state['users'].append(key)
@@ -56,6 +62,8 @@ class SYNC:
 		for user, time in keep_alives.items():
 			print "user: " + user + ", time: " + str(time)
 			if (time <= 0):
+				if (state['controlling'] == user):
+					state['controlling'] = 'none'
 				state['users'].remove(user)
 				del keep_alives[user]
 		print "================KEEP ALIVE DIAGNOSTIC================="
