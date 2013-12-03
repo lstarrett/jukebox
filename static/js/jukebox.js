@@ -17,9 +17,11 @@ $(document).ready(function() {
 		console.log("DEBUG!!: control (should equal me or spectator) is: " + control);
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
+			console.log("~~~~~~~DEBUG: sent state: " + control);
 		}
 		$.getJSON('sync', control, function(data) {
 			state = data;
+			console.log("~~~~~~~DEBUG: received state: " + JSON.stringify(state));
 			if (me != 'spectator') {
 				if (state.controlling == me) {
 					$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
@@ -156,6 +158,7 @@ $(document).ready(function() {
 			console.log("===============DEBUG: creating new song");
 			var song = document.createElement("li");
 			song.className = 'card song-block';
+			song.id = data.files[0].name;
 			song.innerHTML = data.files[0].name + '<div class="card song-remove-btn">X</div>';
 			addSong(song);
 
