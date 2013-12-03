@@ -48,7 +48,7 @@ $(document).ready(function() {
 			setupSongs();
 			setupUsers();
 		}
-	}, 1000);
+	}, 5000);
 	
 	// Setup songs
 	function setupSongs() {
@@ -156,34 +156,65 @@ $(document).ready(function() {
 	});
 	
 	// When a file is chosen, push it to the server
-	$("#chooser").change(function() {
-		$("#chooser-submit").click();
+//	$("#chooser").change(function() {
+//		//$("#chooser-submit").click();
+//	
+//		// TODO: I wish uploads worked over ajax. It would be cleaner.
+//		//alert("chooser has a file!");
+//		//var file = this.files[0];
+//		//var formData = new FormData($("#fileform")[0]);
+//		var formData = new FormData($('#fileform')[0]);
+//		$.ajax({
+//			url: 'upload',
+//			type: 'POST',
+//			xhr: function() {  // Custom XMLHttpRequest
+//				var myXhr = $.ajaxSettings.xhr();
+//				/*if(myXhr.upload){ // Check if upload property exists
+//					myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+//				}*/
+//				return myXhr;
+//			},
+//			success: null,
+//			error: function(xhr, status) {
+//				alert(xhr.status)
+//			},
+//			data: formData,
+//			cache: false,
+//			contentType: false,
+//			processData: false,
+//		});//*/
+//	});
+
+//DEBUG!!!!!!!!!!!! NEW VERSION OF UPLOADER
+	// Initialize the jQuery File Upload plugin
+	$('#upload-form').fileupload({
+		// This element will accept file drag/drop uploading
+		dropZone: $('#drop'),
 	
-		// TODO: I wish uploads worked over ajax. It would be cleaner.
-		/*alert("chooser has a file!");
-		//var file = this.files[0];
-		//var formData = new FormData($("#fileform")[0]);
-		var formData = new FormData($('form')[0]);
-		$.ajax({
-			url: 'upload',
-			type: 'POST',
-			xhr: function() {  // Custom XMLHttpRequest
-				var myXhr = $.ajaxSettings.xhr();
-				if(myXhr.upload){ // Check if upload property exists
-					myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-				}
-				return myXhr;
-			},
-			success: null,
-			error: function(xhr, status) {
-				alert(xhr.status)
-			},
-			data: formData,
-			cache: false,
-			contentType: false,
-			processData: false,
-		});*/
+		// This function is called when a file is added to the queue;
+		// either via the browse button, or via drag/drop:
+		add: function (e, data) {
+			// Automatically upload the file once it is added to the queue
+			var jqXHR = data.submit();
+		},
+	
+		progress: function(e, data){
+	
+			// Calculate the completion percentage of the upload
+			var progress = parseInt(data.loaded / data.total * 100, 10);
+			console.log("DEBUG UL!!!!!!!!!!!!!!!!!!: " + progress);
+	
+		},
+	
+		fail:function(e, data){
+			// Something has gone wrong!
+			alert("shit.");
+		}
+	
 	});
+//ENDDEBUG!!!!!!!!!!!! NEW VERSION OF UPLOADER
+
+
 	
 	// Participate dialog
 	$(function() {
@@ -207,7 +238,7 @@ $(document).ready(function() {
 				console.log("Checking password...");
 				var nickname = $('#nickname').val();
 				var password = $('#password').val();
-				if (nickname.length > 0 && valid(nickname) && password == 'pimpsonly'){ //TODO: replace plaintext check with hash
+				if (nickname.length > 0 && valid(nickname) && password == 'test'){ //TODO: replace plaintext check with hash
 					clearInterval(checkloop);
 					// Add user and change "participate" to "take control"
 					console.log("Welcome!");//DEBUG
