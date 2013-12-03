@@ -5,6 +5,7 @@
 #
 # AUTHORS: Lucas Starret, Jason Salter
 import pygame
+import server
 from threading import Thread
 
 #loc is used for pausing because get_busy() returns true if the song is paused
@@ -88,6 +89,7 @@ def SongEnd():
 	while True:
 		for e in pygame.event.get():
 			if e.type==end:
+				server.endSong()
 				n=n+1
 				newSong=True
 				playPause()

@@ -48,7 +48,7 @@ class SYNC:
 		elif ('controlling' in key): # simple sanity check for good JSON data
 			print "DEBUG: this is a known user, CONTROLLING. Syncing state data with user and resetting keep-alive"
 			keep_alives[state['controlling']] = 100
-			if (state['controlling'] == 'none':
+			if (state['controlling'] == 'none'):
 				state = json.loads(key)
 		elif (key.isalnum() and len(key) < 15): # check for sanitized data and add to users
 			print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
