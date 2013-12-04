@@ -244,24 +244,25 @@ $(document).ready(function() {
 	$('#upload-form').fileupload({
 		dropZone: $('#drop'),
 		add: function (e, data) {
-			// Create a new song for this file
+			// Automatically upload the file
+			var jqXHR = data.submit();
+		},
+		progress: function(e, data){
+			// TODO: track progress in the GUI
+			var progress = parseInt(data.loaded / data.total * 100, 10);
+		},
+		fail:function(e, data){
+			// Something has gone wrong!
+			alert("File failed to upload. Please try again.");
+		},
+		done:function(e, data){
+			// File has successfully made it to the server. Add the song to the GUI.
 			var song = document.createElement("li");
 			song.className = 'card song-block';
 			song.id = data.files[0].name;
 			song.innerHTML = data.files[0].name + '<div class="card song-remove-btn">X</div>';
 			addSong(song);
-
-			// Automatically upload the file once it is added to the queue
-			var jqXHR = data.submit();
-		},
-		progress: function(e, data){
-			var progress = parseInt(data.loaded / data.total * 100, 10);
-		},
-		fail:function(e, data){
-			// Something has gone wrong!
-			alert("File failed to upload.");
 		}
-	
 	});
 
 	// Send a PLAY signal when the PLAY button is clicked
