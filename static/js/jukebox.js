@@ -11,7 +11,12 @@ $(document).ready(function() {
 	$.getJSON('sync', function(data) {
 		state = data;
 	});
+
 	setInterval(function() {
+		sync();
+	}, 2000);
+
+	function sync() {
 		var control = me;
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
@@ -60,7 +65,7 @@ $(document).ready(function() {
 			colorMusicPanel();
 			checkRanges();
 		});
-	}, 1000);
+	}
 
 	function checkRanges() {
 		if ($('#sortable li').length >= 6) {
@@ -157,6 +162,8 @@ $(document).ready(function() {
 	function addSong(listItem){
 		// Add song to state
 		state.songs.push(listItem.id);
+		sync();
+
 		// Push song onto HTML list
 		$("#placeholders li:first-child")
 			.remove()
@@ -171,6 +178,7 @@ $(document).ready(function() {
 	function removeSong(listItem){
 		// Remove song from state
 		state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
+		sync();
 	
 		var placeholder = document.createElement("li");
 		placeholder.className = 'card song-block';
@@ -249,6 +257,7 @@ $(document).ready(function() {
 	// Send a PLAY signal when the PLAY button is clicked
 	$(document).on('click', '.paused-control', function(){
 		state.playing = 'true';
+		sync();
 		$('#playpause').addClass('playing-control').removeClass('paused-control');
 		$('#playpause').html('PLAYING');
 		$('#musicpanel').addClass('music-control-panel-playing');
@@ -256,6 +265,7 @@ $(document).ready(function() {
 	// Send a PAUSE signal when the PAUSE button is clicked
 	$(document).on('click', '.playing-control', function(){
 		state.playing = 'false';
+		sync();
 		$('#playpause').addClass('paused-control').removeClass('playing-control');
 		$('#playpause').html('PAUSED');
 		$('#musicpanel').removeClass('music-control-panel-playing');
@@ -293,6 +303,7 @@ $(document).ready(function() {
 
 					// Add user and change "participate" to "take control"
 					me = nickname;
+					sync();
 					$('#participate').replaceWith('<div id="participate" class="card userlist-btn"></div>');
 					if (state != null && state.controlling != 'none') {
 						$('#participate').addClass('control-disabled');

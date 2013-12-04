@@ -57,7 +57,8 @@ class SYNC:
 						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
 						#mp3funcs.updateList(new_state['songs'], True)
 				# check for change in play/pause
-				if ((state['playing'] == 'false' and new_state['playing'] == 'true') or (state['playing'] == 'true' and new_state['playing'] == 'false')):
+				#if ((state['playing'] == 'false' and new_state['playing'] == 'true') or (state['playing'] == 'true' and new_state['playing'] == 'false')):
+				if (state['playing'] != new_state['playing']):
 					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 					print "@@@@@@@@@ DEBUG: PLAY/PAUSE SIGNAL SENT"
 					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
