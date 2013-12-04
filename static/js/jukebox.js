@@ -291,9 +291,8 @@ $(document).ready(function() {
 			          '    <div class="form-group">' +
 			          '        <input type="text" value placeholder="Nickname" id="nickname" class="form-control">' +
 			          '    </div>' +
-			          '    <div class="form-group has-success">' +
-			          '        <input type="text" value placeholder="Channel Password" id="password" class="form-control">' +
-			          '        <span class="input-icon fui-check-inverted"></span>' +
+			          '    <div id="pwbox" class="form-group">' +
+			          '        <input type="password" value placeholder="Channel Password" id="password" class="form-control password-error">' +
 			          '    </div>'
 		});
 		
@@ -303,27 +302,37 @@ $(document).ready(function() {
 			checkloop = setInterval(function() {
 				var nickname = $('#nickname').val();
 				var password = $('#password').val();
-				if (nickname.length > 0 && valid(nickname) && password == 'test'){ //TODO DEBUG: replace plaintext check with hash
+
+				// check for a nickname, and then compare password. obviously this is glaringly unsecure, but it should
+				// be enough to keep people from causing trouble during our 7 minute presentation.
+				if (nickname.length > 0 && valid(nickname) && password == 'test') {
 					clearInterval(checkloop);
 
-					// Remove popin dialog
-					$('body').removeClass('avgrund-active');
-					setTimeout(function() {
-						$('.avgrund-popin').remove();
-					}, 500);
+					// change the box to success for 1 second
+			        $('#pwbox').append('<span class="input-icon fui-check-inverted password-success"></span>');
+			        $('#password').addClass('password-success').removeClass('password-error');
 
-					// Add user and change "participate" to "take control"
-					me = nickname;
-					sync();
-					$('#participate').replaceWith('<div id="participate" class="card userlist-btn"></div>');
-					if (state != null && state.controlling != 'none') {
-						$('#participate').addClass('control-disabled');
-						$('#participate').html(state.controlling + ' Controlling');
-					}
-					else {
-						$('#participate').addClass('take-control');
-						$('#participate').html('TAKE CONTROL');
-					}
+					// Wait for a few moments after password is correct so it's not jarring
+					setTimeout(function() {
+						// Remove popin dialog
+						$('body').removeClass('avgrund-active');
+						setTimeout(function() {
+							$('.avgrund-popin').remove();
+						}, 500);
+	
+						// Add user and change "participate" to "take control"
+						me = nickname;
+						sync();
+						$('#participate').replaceWith('<div id="participate" class="card userlist-btn"></div>');
+						if (state != null && state.controlling != 'none') {
+							$('#participate').addClass('control-disabled');
+							$('#participate').html(state.controlling + ' Controlling');
+						}
+						else {
+							$('#participate').addClass('take-control');
+							$('#participate').html('TAKE CONTROL');
+						}
+					}, 1200);
 				}
 			}, 100); // check 10x per second
 		});

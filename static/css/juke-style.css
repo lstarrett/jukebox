@@ -30,7 +30,8 @@
 	text-align: center;
 	line-height: 85px;
 	color: #FFFFFF;
-	background: #5C85FF;
+	//background: #5C85FF;
+	background: #4A6ACC;
 }
 
 .userlist {
@@ -261,10 +262,35 @@
 	//box-shadow: 0 1px 2px #aaa;
 	border-radius: 3px;
 	border: 2px solid #CCCCCC;
+	//color: #CCCCCC;
+	color: #4A6ACC;
 }
 
 .form-control:focus {
-	border-color: #5C85FF;
+	border-color: #CCCCCC;
+	//border-color: #4A6ACC;
+	color: #4A6ACC;
+}
+
+.password-error {
+	border-color: #CCCCCC;
+	//border-color: #CCCCCC;
+	color: #C13333;
+}
+.password-error:focus {
+	border-color: #CCCCCC;
+	//border-color: #C13333;
+	color: #C13333;
+}
+.password-success {
+	border-color: #CCCCCC;
+	//border-color: #4A6ACC;
+	color: #4A6ACC;
+}
+.password-success:focus {
+	border-color: #CCCCCC;
+	//border-color: #4A6ACC;
+	color: #4A6ACC;
 }
 
 /* SUNKEN TEXT EFFECT STYLES */
