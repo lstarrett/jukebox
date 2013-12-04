@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	setInterval(function() {
 		sync();
-	}, 3000);
+	}, 2000);
 
 	function sync() {
 		var control = me;
@@ -59,8 +59,8 @@ $(document).ready(function() {
 			}
 			if (state != null && !controlling) {
 				setupSongs();
-				colorPlayButton();
 			}
+			colorPlayButton();
 			colorMusicPanel();
 			setupUsers();
 			checkRanges();
@@ -142,15 +142,25 @@ $(document).ready(function() {
 		}
 	}
 	function colorPlayButton() {
+		$('#playpause').removeClass('paused-control').removeClass('playing-control').removeClass('playing').removeClass('paused');
 		if (state.playing == 'true') {
-			$('#playpause').addClass('playing').removeClass('paused');
+			if (state.controlling == me) {
+				$('#playpause').addClass('playing-control');
+			}
+			else {
+				$('#playpause').addClass('playing');
+			}
 			$('#playpause').html('PLAYING');
 		}
 		else {
-			$('#playpause').addClass('paused').removeClass('playing');
+			if (state.controlling == me) {
+				$('#playpause').addClass('paused-control');
+			}
+			else {
+				$('#playpause').addClass('paused');
+			}
 			$('#playpause').html('PAUSED');
 		}
-		$('#playpause').removeClass('paused-control').removeClass('playing-control');
 	}
 	
 	// Make songs rearrangeable
@@ -258,17 +268,17 @@ $(document).ready(function() {
 	$(document).on('click', '.paused-control', function(){
 		state.playing = 'true';
 		sync();
-		$('#playpause').addClass('playing-control').removeClass('paused-control');
-		$('#playpause').html('PLAYING');
-		$('#musicpanel').addClass('music-control-panel-playing');
+		//$('#playpause').addClass('playing-control').removeClass('paused-control');
+		//$('#playpause').html('PLAYING');
+		//$('#musicpanel').addClass('music-control-panel-playing');
 	});
 	// Send a PAUSE signal when the PAUSE button is clicked
 	$(document).on('click', '.playing-control', function(){
 		state.playing = 'false';
 		sync();
-		$('#playpause').addClass('paused-control').removeClass('playing-control');
-		$('#playpause').html('PAUSED');
-		$('#musicpanel').removeClass('music-control-panel-playing');
+		//$('#playpause').addClass('paused-control').removeClass('playing-control');
+		//$('#playpause').html('PAUSED');
+		//$('#musicpanel').removeClass('music-control-panel-playing');
 	});
 	
 	// Participate dialog
