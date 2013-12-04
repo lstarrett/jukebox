@@ -17,13 +17,13 @@
 			<div class="row">
 				<div class="col-md-3 col-md-offset-1">
 					<div class="juke-heightframe">
-					<div id="participate" class="card userlist-btn participate">JOIN</div>
+					<div id="participate" class="card userlist-btn participate-disabled">JOIN</div>
 					<ul id="userlist" class="card userlist">
 					</ul>
 				</div>
 				</div>
 				<div class="col-md-7">
-					<div class="juke-heightframe">
+					<div class="juke-heightframe-right">
 					<div class="card upload-panel" id="drop">
 						<div class="card upload-text">
 							<table align="center">
@@ -47,11 +47,9 @@
 					</ul>
 					<ul id="sortable" class="song-list"></ul>
 
-					<div class="card music-control-panel">
-						<span class="fui-play"></span>
-						<span class="fui-pause"></span>
-					</div>
+					<div class="card music-control-panel" id="musicpanel"></div>
 				</div>
+				<div class="card play-btn paused" id="playpause">PLAY</div>
 				</div>
 			</div>
 		</div>

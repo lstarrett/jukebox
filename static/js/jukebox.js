@@ -13,7 +13,6 @@ $(document).ready(function() {
 	});
 	setInterval(function() {
 		var control = me;
-//		console.log("DEBUG!!: control (should equal me or spectator) is: " + control);
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
 			console.log("~~~~~~~DEBUG: sent state: " + control);
@@ -28,35 +27,57 @@ $(document).ready(function() {
 					$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
 					$('#participate').html('RELEASE CONTROL');
 					$('#upload').removeClass('upload-btn-disabled');
+					if (state.playing == 'true') {
+						$('#playpause').addClass('playing-control');
+					}
+					else { 
+						$('#playpause').addClass('paused-control');
+					}
+					$('#playpause').removeClass('playing').removeClass('paused');
 					addRemoveButtons();
-//					removeEndedSong();
 					if (state.songs.length < sent_state.songs.length) {
-						console.log("DEBUG!!: removed the last-child of songs");
 						removeSong($('#sortable li:last-child'));
 					}
-//					console.log("        DEBUG: sync finalized, I'm in control");
 				}
 				else if (state.controlling != 'none') {
 					controlling = false;
 					$('#participate').addClass('control-disabled').removeClass('controlling').removeClass('take-control');
 					$('#participate').html(state.controlling + ' Controlling');
 					$('#upload').addClass('upload-btn-disabled');
-//					console.log("        DEBUG: sync said someone else is already controlling, disabling button");
 				}
 				else {
 					controlling = false;
 					$('#participate').addClass('take-control').removeClass('control-disabled').removeClass('controlling');
 					$('#participate').html('TAKE CONTROL');
 					$('#upload').addClass('upload-btn-disabled');
-//					console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
 				}
 			}
 			if (state != null && !controlling) {
 				setupSongs();
+				colorPlayButton();
 			}
 			setupUsers();
+			colorMusicPanel();
+			checkRanges();
 		});
 	}, 1000);
+
+	function checkRanges() {
+		if ($('#sortable li').length >= 6) {
+			$('#upload').addClass('upload-btn-disabled');
+		}
+		else {
+			if (state.controlling == me) {
+				$('#upload').removeClass('upload-btn-disabled');
+			}
+		}
+		if ($('#userlist li').length >= 5) {
+			$('.participate').addClass('participate-disabled').removeClass('participate');
+		}
+		else {
+			$('.participate-disabled').addClass('participate').removeClass('participate-disabled');
+		}
+	}
 
 	function addRemoveButtons() {
 		$("#sortable").each(function() {
@@ -70,7 +91,6 @@ $(document).ready(function() {
 
 	function removeEndedSong() {
 		if (state.songs.length < $('#sortable li').length) {
-			console.log("DEBUG!!: removed the last-child of songs");
 			removeSong($('#sortable li:last-child'));
 		}
 	}
@@ -108,6 +128,25 @@ $(document).ready(function() {
 		}
 	}
 	
+	function colorMusicPanel() {
+		if (state.playing == 'true') {
+			$('#musicpanel').addClass('music-control-panel-playing');
+		}
+		else {
+			$('#musicpanel').removeClass('music-control-panel-playing');
+		}
+	}
+	function colorPlayButton() {
+		if (state.playing == 'true') {
+			$('#playpause').addClass('playing').removeClass('paused');
+			$('#playpause').html('PLAYING');
+		}
+		else {
+			$('#playpause').addClass('paused').removeClass('playing');
+			$('#playpause').html('PAUSED');
+		}
+		$('#playpause').removeClass('paused-control').removeClass('playing-control');
+	}
 	
 	// Make songs rearrangeable
 	$(function() {
@@ -118,7 +157,6 @@ $(document).ready(function() {
 	function addSong(listItem){
 		// Add song to state
 		state.songs.push(listItem.id);
-		console.log(JSON.stringify(state));//DEBUG
 		// Push song onto HTML list
 		$("#placeholders li:first-child")
 			.remove()
@@ -132,8 +170,6 @@ $(document).ready(function() {
 	// Remove a song
 	function removeSong(listItem){
 		// Remove song from state
-//		console.log("DEBUGGGGGGGG: index is: " + state.songs.indexOf($(listItem).clone().children().remove().end().text()));
-//		console.log("DEBUGGGGGGGG: listItem.id is: " + $(listItem).clone().children().remove().end().text());
 		state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
 	
 		var placeholder = document.createElement("li");
@@ -166,21 +202,17 @@ $(document).ready(function() {
 		state.controlling = me;
 		controlling = true;
 		$('#participate').html('WAITING...');
-//		console.log("    DEBUG: taking control, waiting for sync to finalize");
 	});
 
 	$(document).on('click', '.controlling', function(){
 		state.controlling = 'release';
 		controlling = true;
 		$('#participate').html('RELEASING CONTROL...');
-//		console.log("    DEBUG: releasing control, waiting for sync to finalize");
 	});
 
 	// Remove a song when 'X' on song block is clicked
 	$(document).on('click', '.song-remove-btn', function(){
-		// TODO DEBUG: this is not working :(
 		removeSong($(this).closest('.song-block'));
-//		console.log($(this).closest('.song-block').id);
 	});
 	
 	// Display file chooser when upload button is clicked
@@ -195,7 +227,6 @@ $(document).ready(function() {
 		dropZone: $('#drop'),
 		add: function (e, data) {
 			// Create a new song for this file
-//			console.log("===============DEBUG: creating new song");
 			var song = document.createElement("li");
 			song.className = 'card song-block';
 			song.id = data.files[0].name;
@@ -207,14 +238,27 @@ $(document).ready(function() {
 		},
 		progress: function(e, data){
 			var progress = parseInt(data.loaded / data.total * 100, 10);
-//			console.log("DEBUG UL!!!!!!!!!!!!!!!!!!: " + progress);
-	
 		},
 		fail:function(e, data){
 			// Something has gone wrong!
 			alert("File failed to upload.");
 		}
 	
+	});
+
+	// Send a PLAY signal when the PLAY button is clicked
+	$(document).on('click', '.paused-control', function(){
+		state.playing = 'true';
+		$('#playpause').addClass('playing-control').removeClass('paused-control');
+		$('#playpause').html('PLAYING');
+		$('#musicpanel').addClass('music-control-panel-playing');
+	});
+	// Send a PAUSE signal when the PAUSE button is clicked
+	$(document).on('click', '.playing-control', function(){
+		state.playing = 'false';
+		$('#playpause').addClass('paused-control').removeClass('playing-control');
+		$('#playpause').html('PAUSED');
+		$('#musicpanel').removeClass('music-control-panel-playing');
 	});
 	
 	// Participate dialog
@@ -236,10 +280,9 @@ $(document).ready(function() {
 		var checkloop;
 		$(document).on('focus', '#password', function(){
 			checkloop = setInterval(function() {
-//				console.log("Checking password...");
 				var nickname = $('#nickname').val();
 				var password = $('#password').val();
-				if (nickname.length > 0 && valid(nickname) && password == 'test'){ //TODO: replace plaintext check with hash
+				if (nickname.length > 0 && valid(nickname) && password == 'test'){ //TODO DEBUG: replace plaintext check with hash
 					clearInterval(checkloop);
 
 					// Remove popin dialog
@@ -249,16 +292,13 @@ $(document).ready(function() {
 					}, 500);
 
 					// Add user and change "participate" to "take control"
-//					console.log("Welcome!");//DEBUG
 					me = nickname;
 					$('#participate').replaceWith('<div id="participate" class="card userlist-btn"></div>');
 					if (state != null && state.controlling != 'none') {
-//						console.log("DEBUG: signed in and someone else is controlling");
 						$('#participate').addClass('control-disabled');
 						$('#participate').html(state.controlling + ' Controlling');
 					}
 					else {
-//						console.log("DEBUG: signed in, should see take control");
 						$('#participate').addClass('take-control');
 						$('#participate').html('TAKE CONTROL');
 					}

@@ -8,6 +8,10 @@
 	position: relative;
 	height: 500px;
 }
+.juke-heightframe-right {
+	position: relative;
+	height: 457px;
+}
 
 /* GENERIC CARD STYLE */
 .card {
@@ -32,7 +36,7 @@
 .userlist {
 	list-style-type: none;
 	padding: 1rem;
-	height: 395px;
+	height: 397px;
 }
 
 .userlist-user {
@@ -58,12 +62,20 @@
 	transition: 0.25s;
 }
 .participate {
-	background: #5C85FF;
+	background: #4A6ACC;
 }
 .participate:hover,
 .participate:focus,
 .participate:active {
-	background: #4A6ACC;
+	background: #5C85FF;
+}
+.participate-disabled {
+	background: #CCCCCC;
+}
+.participate-disabled:hover,
+.participate-disabled:focus,
+.participate-disabled:active {
+	cursor: default;
 }
 .take-control {
 	background: #C13333;
@@ -116,15 +128,14 @@
 	width: 50px;
 	text-align: center;
 	line-height: 40px;
-	color: #B20000;
-	box-shadow: 0 1px 2px #B20000;
-	background: #CCCCCC;
+	color: #FFFFFF;
+	box-shadow: 0 1px 2px #aaa;
+	background: #C13333;
 }
 .song-remove-btn:hover,
 .song-remove-btn:focus,
 .song-remove-btn:active {
 	cursor: pointer;
-	color: #FFFFFF;
 	background: #B20000;
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
@@ -176,23 +187,70 @@
 
 /* MUSIC CONTROLS STYLES */
 .music-control-panel {
+	margin: 0;
 	width: 100%;
-	height: 85px;
+	height: 55px;
 	position: absolute;
 	bottom: 0;
 	z-index: -1;
-	padding: 50px 20px 0;
-	//border: 1px solid #5C85FF;
-	//background: #5C85FF;
-	background: #CCCCCC;
+	background: #4A6ACC;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+}
+.music-control-panel-playing {
+	background: #C13333;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
 }
 
 .music-control-panel > span {
 	display: inline-block;
-	width: 25px;	
-	color: #FFFFFF;
-	text-shadow: 0 1px 2px #aaa;
 }
+
+.play-btn {
+	border-radius: 0 0 3px 3px;
+	padding: 0 15px 0 15px;
+	margin-top: 0;
+	margin-left: 10px;
+	height: 36px;
+	width: 150px;
+	text-align: center;
+	line-height: 36px;
+	color: #FFFFFF;
+}
+.playing {
+	background: #C13333;
+	cursor: default;
+}
+.paused {
+	background: #4A6ACC;
+	cursor: default;
+}
+.playing-control {
+	background: #C13333;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+}
+.playing-control:hover,
+.playing-control:focus,
+.playing-control:active {
+	cursor: pointer;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+}
+.paused-control {
+	background: #4A6ACC;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+}
+.paused-control:hover,
+.paused-control:focus,
+.paused-control:active {
+	cursor: pointer;
+	-webkit-transition: 0.25s linear;
+	transition: 0.25s linear;
+}
+	
 
 /* FORM CONTROL OVERRIDES */
 .form-group {

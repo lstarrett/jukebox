@@ -12,7 +12,7 @@ urls = (
 
 # State which is synced between clients
 #state = { 'controlling':'none', 'users':["Bob","Rutherford","Shawntelle","Keith"], 'songs':["Song 1", "Song 40", "Song Poop"] }
-state = { 'controlling':'none', 'users':[], 'songs':[] }
+state = { 'playing':'false', 'controlling':'none', 'users':[], 'songs':[] }
 
 # State which is synced between clients
 keep_alives = {}
@@ -37,22 +37,18 @@ class SERVE_STATIC:
 class SYNC:
 	def GET(self):
 		global state
-		print "SYNC GET reqeust received, send state data to client"
 
 		# extract client request data and process it
 		key, value = web.input().popitem()
 		if (key == 'spectator'): # continue, this is just a spectator
-			print "DEBUG: 'spectator' received, this is a spectator"
-		elif (key in state['users']):
-			print "DEBUG: this is a known user, NOT controlling. Resetting keep-alive"
+			pass
+		elif (key in state['users']): # this is a known user, NOT controlling. Resetting keep-alive
 			keep_alives[key] = 100
 		elif ('controlling' in key): # simple sanity check for good JSON data
 			print "###########################"
-			if (state['controlling'] == 'none'): # available for any user to take control
+			if (state['controlling'] == 'none'): # a user is asking for control
 				state = json.loads(key)
-				print "DEBUG: known user is passing JSON data with controlling:none"
-			elif (json.loads(key)['controlling'] == state['controlling']): # available for same user to continue controlling
-				print "DEBUG: known user is passing JSON data with controlling:me"
+			elif (json.loads(key)['controlling'] == state['controlling']): # a user is continuing to control
 				new_state = json.loads(key)
 				print "DEBUG STATE: " + str(state)
 				print "DEBUG NEW STATE: " + str(new_state)
@@ -60,13 +56,18 @@ class SYNC:
 					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
 						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
 						#mp3funcs.updateList(new_state['songs'], True)
+				# check for change in play/pause
+				if ((state['playing'] == 'false' and new_state['playing'] == 'true') or (state['playing'] == 'true' and new_state['playing'] == 'false')):
+					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+					print "@@@@@@@@@ DEBUG: PLAY/PAUSE SIGNAL SENT"
+					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+					#mp3funcs.playPause()
 				state = new_state
 				keep_alives[state['controlling']] = 100
-			elif (json.loads(key)['controlling'] == 'release'): # release control and return to available state
-				print "DEBUG: known user is passing JSON data with controlling:release"
+			elif (json.loads(key)['controlling'] == 'release'): # user is releasing control
 				state['controlling'] = 'none'
 			print "###########################"
-		elif (key.isalnum() and len(key) < 15): # check for sanitized data and add to users
+		elif (key.isalnum() and len(key) < 15): # user is joining channel, check for sane username
 			print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
 			state['users'].append(key)
 			keep_alives[key] = 100
@@ -85,16 +86,10 @@ class SYNC:
 		print "================KEEP ALIVE DIAGNOSTIC================="
 	
 		# update the current song list with the updated state
-		#mp3funcs.updateList(state['songs'], False).
+		#mp3funcs.updateList(state['songs'], False)
 		print "       @@@@@@@@@ DEBUG: ROUTINE UPDATE OF LIST WITH STOP = FALSE TO KEEP IT IN SYNC"
 		print
 		print
-
-		#DEBUG: test song ending. this isn't a good test.
-#		if (tripper % 5 == 0):
-#			print "       @@@@@@@@@ DEBUG: SONG ENDED, REMOVING FROM GUI"
-#			#endSong()
-#		tripper = tripper + 1
 
 		# return the current state information
 		web.header('Content-Type', 'application/json')
