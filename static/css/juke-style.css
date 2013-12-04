@@ -164,6 +164,15 @@
 	-webkit-transition: 0.25s;
 	transition: 0.25s;
 }
+.upload-btn-disabled {
+	background: #CCCCCC;
+}
+.upload-btn-disabled:hover,
+.upload-btn-disabled:focus,
+.upload-btn-disabled:active {
+	cursor: default;
+	background: #CCCCCC;
+}
 
 /* MUSIC CONTROLS STYLES */
 .music-control-panel {

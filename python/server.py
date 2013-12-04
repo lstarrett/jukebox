@@ -1,5 +1,6 @@
 import web
 import json
+#import mp3funcs
 
 urls = (
 	'/', 'INDEX',
@@ -17,8 +18,8 @@ state = { 'controlling':'none', 'users':[], 'songs':[] }
 keep_alives = {}
 
 def endSong():
-	# TODO: notify client GUIs that the song is done
-	print "Jason's code just sent an end of song notification. Client GUI's will be notified when I finish this."
+	# notify client GUIs that the song is done
+	state['songs'].pop(0)
 
 
 # serve index.html
@@ -52,7 +53,14 @@ class SYNC:
 				print "DEBUG: known user is passing JSON data with controlling:none"
 			elif (json.loads(key)['controlling'] == state['controlling']): # available for same user to continue controlling
 				print "DEBUG: known user is passing JSON data with controlling:me"
-				state = json.loads(key)
+				new_state = json.loads(key)
+				print "DEBUG STATE: " + str(state)
+				print "DEBUG NEW STATE: " + str(new_state)
+				if (len(state['songs']) > 0):
+					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
+						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
+						#mp3funcs.updateList(new_state['songs'], True)
+				state = new_state
 				keep_alives[state['controlling']] = 100
 			elif (json.loads(key)['controlling'] == 'release'): # release control and return to available state
 				print "DEBUG: known user is passing JSON data with controlling:release"
@@ -75,6 +83,18 @@ class SYNC:
 				state['users'].remove(user)
 				del keep_alives[user]
 		print "================KEEP ALIVE DIAGNOSTIC================="
+	
+		# update the current song list with the updated state
+		#mp3funcs.updateList(state['songs'], False).
+		print "       @@@@@@@@@ DEBUG: ROUTINE UPDATE OF LIST WITH STOP = FALSE TO KEEP IT IN SYNC"
+		print
+		print
+
+		#DEBUG: test song ending. this isn't a good test.
+#		if (tripper % 5 == 0):
+#			print "       @@@@@@@@@ DEBUG: SONG ENDED, REMOVING FROM GUI"
+#			#endSong()
+#		tripper = tripper + 1
 
 		# return the current state information
 		web.header('Content-Type', 'application/json')
