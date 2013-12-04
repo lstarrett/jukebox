@@ -10,11 +10,11 @@ $(document).ready(function() {
 	// Intitial sync with server, then routine update polling
 	$.getJSON('sync', function(data) {
 		state = data;
-		console.log(JSON.stringify(state));//DEBUG
+//		console.log(JSON.stringify(state));//DEBUG
 	});
 	setInterval(function() {
 		var control = me;
-		console.log("DEBUG!!: control (should equal me or spectator) is: " + control);
+//		console.log("DEBUG!!: control (should equal me or spectator) is: " + control);
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
 			console.log("~~~~~~~DEBUG: sent state: " + control);
@@ -22,23 +22,24 @@ $(document).ready(function() {
 		$.getJSON('sync', control, function(data) {
 			state = data;
 			console.log("~~~~~~~DEBUG: received state: " + JSON.stringify(state));
+			console.log("");
 			if (me != 'spectator') {
 				if (state.controlling == me) {
 					$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
 					$('#participate').html('RELEASE CONTROL');
-					console.log("        DEBUG: sync finalized, I'm in control");
+//					console.log("        DEBUG: sync finalized, I'm in control");
 				}
 				else if (state.controlling != 'none') {
 					controlling = false;
 					$('#participate').addClass('control-disabled').removeClass('controlling').removeClass('take-control');
 					$('#participate').html(state.controlling + ' Controlling');
-					console.log("        DEBUG: sync said someone else is already controlling, disabling button");
+//					console.log("        DEBUG: sync said someone else is already controlling, disabling button");
 				}
 				else {
 					controlling = false;
 					$('#participate').addClass('take-control').removeClass('control-disabled').removeClass('controlling');
 					$('#participate').html('TAKE CONTROL');
-					console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
+//					console.log("        DEBUG: sync says no one is in control, re-enabling control button.");
 				}
 			}
 			if (state != null && !controlling) {
@@ -46,11 +47,7 @@ $(document).ready(function() {
 				setupUsers();
 			}
 		});
-		if (state != null && !controlling) {
-			setupSongs();
-			setupUsers();
-		}
-	}, 5000);
+	}, 1000);
 	
 	// Setup songs
 	function setupSongs() {
@@ -71,6 +68,7 @@ $(document).ready(function() {
 			song.innerHTML = state.songs[i] + '<div class="card song-remove-btn">X</div>';
 			$(song).prependTo('#sortable');
 		}
+		//$('#sortable').sortable().bind('sortupdate', updateOrder());
 	}
 	
 	// Setup users
@@ -87,7 +85,7 @@ $(document).ready(function() {
 	
 	// Make songs rearrangeable
 	$(function() {
-		$('#sortable').sortable();
+		//$('#sortable').sortable().bind('sortupdate', updateOrder());
 	});
 	
 	// Add new song
@@ -102,11 +100,15 @@ $(document).ready(function() {
 			.css('opacity',0.0)
 			.prependTo('#sortable')
 			.animate({opacity: 1.0})
+		//$('#sortable').sortable().bind('sortupdate', updateOrder());
 	}
 	
 	// Remove a song
 	function removeSong(listItem){
 		// Remove song from state
+		console.log("DEBUGGGGGGGG: index is: " + state.songs.indexOf(listItem.id));
+		console.log("DEBUGGGGGGGG: state.songs are: " + state.songs);
+		console.log("DEBUGGGGGGGG: listItem.id is: " + listItem.id);
 		state.songs.splice(state.songs.indexOf(listItem.id), 1);
 		console.log(JSON.stringify(state));//DEBUG
 	
@@ -124,6 +126,16 @@ $(document).ready(function() {
 					.prependTo('#placeholders')
 					.slideDown('fast')
 			})
+		//$('#sortable').sortable().bind('sortupdate', updateOrder());
+	}
+
+	// Update song order in state list
+	// TODO DEBUG: this doesn't seem to work right, enable sorting if there's time.
+	function updateOrder() {
+		// update state order
+		//var order = $("#sortable2").sortable("toArray");
+		//console.log("|||||||DEBUG: sorted order: " + order);
+		//console.log("|||||||DEBUG: sorted order: ");
 	}
 	
 	$(document).on('click', '.take-control', function(){
@@ -142,7 +154,10 @@ $(document).ready(function() {
 
 	// Remove a song when 'X' on song block is clicked
 	$(document).on('click', '.song-remove-btn', function(){
-		removeSong($(this).parent());
+		// TODO DEBUG: this is not working :(
+		removeSong($(this).closest('.song-block'));
+		console.log($(this).closest('.song-block').id);
+		console.log($(this).innerHTML);
 	});
 	
 	// Display file chooser when upload button is clicked
@@ -201,6 +216,13 @@ $(document).ready(function() {
 				var password = $('#password').val();
 				if (nickname.length > 0 && valid(nickname) && password == 'test'){ //TODO: replace plaintext check with hash
 					clearInterval(checkloop);
+
+					// Remove popin dialog
+					$('body').removeClass('avgrund-active');
+					setTimeout(function() {
+						$('.avgrund-popin').remove();
+					}, 500);
+
 					// Add user and change "participate" to "take control"
 					console.log("Welcome!");//DEBUG
 					me = nickname;
