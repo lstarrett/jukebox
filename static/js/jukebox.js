@@ -53,8 +53,8 @@ $(document).ready(function() {
 			}
 			if (state != null && !controlling) {
 				setupSongs();
-				setupUsers();
 			}
+			setupUsers();
 		});
 	}, 1000);
 
