@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	setInterval(function() {
 		sync();
-	}, 2000);
+	}, 3000);
 
 	function sync() {
 		var control = me;
@@ -61,8 +61,8 @@ $(document).ready(function() {
 				setupSongs();
 				colorPlayButton();
 			}
-			setupUsers();
 			colorMusicPanel();
+			setupUsers();
 			checkRanges();
 		});
 	}
