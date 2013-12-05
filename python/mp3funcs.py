@@ -78,6 +78,7 @@ def updateList(l,stop):
 	global list
 	global newSong
 	global n
+	global playing
 	n=0
 	list=l
 	print "updating list"
