@@ -12,7 +12,7 @@ urls = (
 
 # State which is synced between clients
 #state = { 'controlling':'none', 'users':["Bob","Rutherford","Shawntelle","Keith"], 'songs':["Song 1", "Song 40", "Song Poop"] }
-state = { 'playing':'false', 'controlling':'none', 'users':[], 'songs':[] }
+state = { 'playing':'false', 'songended':'false', 'controlling':'none', 'users':[], 'songs':[] }
 
 # State which is synced between clients
 keep_alives = {}
