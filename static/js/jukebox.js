@@ -41,6 +41,7 @@ $(document).ready(function() {
 					$('#playpause').removeClass('playing').removeClass('paused');
 					addRemoveButtons();
 					if (state.songended == 'true') {
+						state.songended = 'false';
 						removeSong($('#sortable li:last-child'));
 					}
 				}
@@ -187,11 +188,12 @@ $(document).ready(function() {
 	// Remove a song
 	function removeSong(listItem){
 		// Remove song from state
-		if (state.songended != 'true') {
-			console.log("DEEEEEEEEEEBUUUUG: endSong() was called and GUI updated correctly");
-			state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
-		}
-		else state.songended = 'false';
+//		if (state.songended != 'true') {
+//			console.log("DEEEEEEEEEEBUUUUG: endSong() was called and GUI updated correctly");
+//			state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
+//		}
+//		else state.songended = 'false';
+		state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
 		sync();
 	
 		var placeholder = document.createElement("li");
