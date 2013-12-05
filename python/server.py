@@ -42,6 +42,7 @@ class SYNC:
 		global state
 
 		# extract client request data and process it
+		if (len(web.input()) == 0): return JSON.dumps(state)
 		key, value = web.input().popitem()
 		if (key == 'spectator'): # continue, this is just a spectator
 			pass
