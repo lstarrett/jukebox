@@ -25,12 +25,14 @@ end=-1
 n=0
 MAXN=3
 
+#state of player
+playing=False
 
 def main():
 	# Main won't be used in the finished project, use here for testing
 	initMusic()
 	global list	
-	list=["go.wav","1up.wav","cc.wav"]
+	list=["song song.mp3"]
 	playPause()
 	while True:
 		c=raw_input()
@@ -43,15 +45,19 @@ def main():
 
 
 def playPause():
-	#Already playing->should pause
 	global loc
 	global newSong
 	global n
 	global MAXN
+	if list is None:
+			playing=False
+			return
+	#Already playing->should pause
 	if pygame.mixer.music.get_busy() and pygame.mixer.music.get_pos() != loc:
 		print "pausing"
 		pygame.mixer.music.pause()
 		loc=pygame.mixer.music.get_pos();
+		playing=False
 		return
 	#Not started->load new song
 	if newSong:	
@@ -59,10 +65,12 @@ def playPause():
 			print "starting new song"
 			newSong=False
 			pygame.mixer.music.load("music/"+list[n])
-			pygame.mixer.music.play()		
+			pygame.mixer.music.play()	
+			playing=True
 	#not playing and not at the beginning->resume playing
 	else:
 		print "unpausing"
+		playing=False
 		pygame.mixer.music.unpause()
 
 
@@ -72,15 +80,15 @@ def updateList(l,stop):
 	global n
 	n=0
 	list=l
+	print "updating list"
 	if stop:
-		print "stopping and loading new song"
+		print "updating list and loading new song"
 		global loc
 		loc=-5
 		newSong=True
-		pygame.mixer.music.stop()	
-
-def setPosition():
-	print "yay"
+		pygame.mixer.music.stop()
+		if playing:
+			playPause()
 
 def SongEnd():
 	global end
@@ -89,10 +97,11 @@ def SongEnd():
 	while True:
 		for e in pygame.event.get():
 			if e.type==end:
-				server.endSong()
-				n=n+1
-				newSong=True
-				playPause()
+				if playing:
+					server.endSong()
+					n=n+1
+					newSong=True
+					playPause()
 
 
 #Needs to be called before anything else can work
