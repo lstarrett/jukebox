@@ -87,8 +87,9 @@ def updateList(l,stop):
 		loc=-5
 		newSong=True
 		pygame.mixer.music.stop()
-		if playing:
-			playPause()
+
+	if playing:
+		playPause()
 
 def SongEnd():
 	global end
