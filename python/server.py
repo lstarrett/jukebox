@@ -19,7 +19,7 @@ keep_alives = {}
 
 def endSong():
 	# notify client GUIs that the song is done
-	state['songs'].pop(0)
+	#state['songs'].pop(0)
 	state['songended'] = 'true' 
 
 
