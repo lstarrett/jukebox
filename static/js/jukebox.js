@@ -187,7 +187,7 @@ $(document).ready(function() {
 	// Remove a song
 	function removeSong(listItem){
 		// Remove song from state
-		if (!state.songended == 'true') {
+		if (state.songended != 'true') {
 			console.log("DEEEEEEEEEEBUUUUG: endSong() was called and GUI updated correctly");
 			state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
 		}
