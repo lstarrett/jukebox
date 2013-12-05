@@ -21,7 +21,7 @@ keep_alives = {}
 def endSong():
 	# notify client GUIs that the song is done
 	#state['songs'].pop(0)
-	print "       @@@@@@@@@@@@@@@@@ DEBUG: songEnd() was called"
+	#print "       @@@@@@@@@@@@@@@@@ DEBUG: songEnd() was called"
 	state['songended'] = 'true' 
 
 
@@ -49,7 +49,7 @@ class SYNC:
 		elif (key in state['users']): # this is a known user, NOT controlling. Resetting keep-alive
 			keep_alives[key] = 100
 		elif ('controlling' in key): # simple sanity check for good JSON data
-			print "###########################"
+			#print "###########################"
 			if (state['controlling'] == 'none'): # a user is asking for control
 				new_state = json.loads(key)
 				if (state['songended'] == 'true'):
@@ -57,17 +57,17 @@ class SYNC:
 				state = new_state
 			elif (json.loads(key)['controlling'] == state['controlling']): # a user is continuing to control
 				new_state = json.loads(key)
-				print "DEBUG STATE: " + str(state)
-				print "DEBUG NEW STATE: " + str(new_state)
+				#print "DEBUG STATE: " + str(state)
+				#print "DEBUG NEW STATE: " + str(new_state)
 				if (len(state['songs']) > 0):
 					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
-						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
+						#print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
 						mp3funcs.updateList(new_state['songs'], True)
 				# check for change in play/pause
 				if (state['playing'] != new_state['playing']):
-					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-					print "@@@@@@@@@ DEBUG: PLAY/PAUSE SIGNAL SENT"
-					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+					#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+					#print "@@@@@@@@@ DEBUG: PLAY/PAUSE SIGNAL SENT"
+					#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 					if (new_state['playing'] == 'true'):
 						mp3funcs.play()
 					else:
@@ -78,30 +78,30 @@ class SYNC:
 				keep_alives[state['controlling']] = 100
 			elif (json.loads(key)['controlling'] == 'release'): # user is releasing control
 				state['controlling'] = 'none'
-			print "###########################"
+			#print "###########################"
 		elif (key.isalnum() and len(key) < 15): # user is joining channel, check for sane username
-			print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
+			#print "DEBUG: this is an unknown user. Adding to users and setting keep-alive"
 			state['users'].append(key)
 			keep_alives[key] = 100
 
 		# subtract some "time" from each user's keepalive value. Note that this is NOT real time, and "time" only
 		# decreases when at least one user is online syncing with the server.
-		print "================KEEP ALIVE DIAGNOSTIC================="
+		#print "================KEEP ALIVE DIAGNOSTIC================="
 		keep_alives.update((user, time - (20 / len(state['users']))) for user, time in keep_alives.items())
 		for user, time in keep_alives.items():
-			print "user: " + user + ", time: " + str(time)
+			#print "user: " + user + ", time: " + str(time)
 			if (time <= 0):
 				if (state['controlling'] == user):
 					state['controlling'] = 'none'
 				state['users'].remove(user)
 				del keep_alives[user]
-		print "================KEEP ALIVE DIAGNOSTIC================="
+		#print "================KEEP ALIVE DIAGNOSTIC================="
 	
 		# update the current song list with the updated state
 		mp3funcs.updateList(state['songs'], False)
-		print "       @@@@@@@@@ DEBUG: ROUTINE UPDATE OF LIST WITH STOP = FALSE TO KEEP IT IN SYNC"
-		print
-		print
+		#print "       @@@@@@@@@ DEBUG: ROUTINE UPDATE OF LIST WITH STOP = FALSE TO KEEP IT IN SYNC"
+		#print
+		#print
 
 		# return the current state information
 		web.header('Content-Type', 'application/json')
