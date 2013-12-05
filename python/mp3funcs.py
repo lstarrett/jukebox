@@ -79,6 +79,7 @@ def updateList(l,stop):
 	global newSong
 	global n
 	global playing
+	new=False
 	n=0
 	list=l
 	print "updating list"
@@ -92,9 +93,12 @@ def updateList(l,stop):
 		#empty list
 		if list is None:
 			playing=True
+			new= True
 			
 
 	if playing:
+		if new:
+			newSong=True
 		playPause()
 
 def SongEnd():
