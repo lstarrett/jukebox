@@ -23,7 +23,7 @@ end=-1
 #location in the list
 #for when songs keep ending without new ones being added
 n=0
-MAXN=3
+MAXN=6
 
 #state of player
 playing=False
@@ -73,11 +73,13 @@ def playPause():
 		playing=False
 		pygame.mixer.music.unpause()
 
-
+#stop=t when playing song is X'ed
 def updateList(l,stop):
 	global list
 	global newSong
 	global n
+	global playing
+	new=-1
 	n=0
 	list=l
 	print "updating list"
@@ -87,9 +89,38 @@ def updateList(l,stop):
 		loc=-5
 		newSong=True
 		pygame.mixer.music.stop()
+		
+		#empty list and playing
+		if len(list)==0 and playing:
+			new=0
+			pygame.mixer.music.stop()
+			return
 
-	if playing:
-		playPause()
+		#empty list and not playing
+		if len(list)==0 and not playing:
+			new=1
+			return
+
+		#not empty list and playing
+		if len(list)!=0 and playing:
+			new=2
+			pygame.mixer.music.stop()
+			pygame.mixer.music.load("music/"+list[n])
+			pygame.mixer.music.play()
+			return
+
+		#not empty list and not playing
+		if len(list)!=0 and not playing:
+			new=3
+			return
+		
+	if new==0:
+		pygame.mixer.music.load("music/"+list[n])
+		pygame.mixer.music.play()
+		return
+				
+			
+
 
 def SongEnd():
 	global end
@@ -120,3 +151,15 @@ def initMusic():
 # MAIN (call main automatically when 'python mp3funcs.py' is used from the terminal)
 if __name__ == '__main__':
 	main()
+
+
+
+
+
+
+
+#
+#
+#
+#
+
