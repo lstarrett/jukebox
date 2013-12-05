@@ -103,7 +103,9 @@ class SYNC:
 
 		# return the current state information
 		web.header('Content-Type', 'application/json')
-		return json.dumps(state)
+		return_state = state
+		state['songended'] = 'falce'
+		return json.dumps(return_state)
 
 class UPLOAD:
 	def POST(self):
