@@ -20,6 +20,7 @@ keep_alives = {}
 def endSong():
 	# notify client GUIs that the song is done
 	#state['songs'].pop(0)
+	print "       @@@@@@@@@@@@@@@@@ DEBUG: songEnd() was called"
 	state['songended'] = 'true' 
 
 
@@ -48,7 +49,10 @@ class SYNC:
 		elif ('controlling' in key): # simple sanity check for good JSON data
 			print "###########################"
 			if (state['controlling'] == 'none'): # a user is asking for control
-				state = json.loads(key)
+				new_state = json.loads(key)
+				if (state['songended'] == 'true'):
+					new_state['songended'] = 'true'
+				state = new_state
 			elif (json.loads(key)['controlling'] == state['controlling']): # a user is continuing to control
 				new_state = json.loads(key)
 				print "DEBUG STATE: " + str(state)
@@ -66,6 +70,8 @@ class SYNC:
 						mp3funcs.play()
 					else:
 						mp3funcs.pause()
+				if (state['songended'] == 'true'):
+					new_state['songended'] = 'true'
 				state = new_state
 				keep_alives[state['controlling']] = 100
 			elif (json.loads(key)['controlling'] == 'release'): # user is releasing control
