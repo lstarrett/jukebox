@@ -14,6 +14,9 @@ import copy
 #song list
 songList=[]
 
+#previously played song
+previousSong = None
+
 #signal marker
 end=-1
 
@@ -34,13 +37,16 @@ def load(name):
 def updateList(l,stop):
 	global songList
 	songList=copy.deepcopy(l)	
-	if stop and len(songList)>0:
-		load(songList.pop(0))
+	if stop:
+		pygame.mixer.music.stop()
+		if len(songList)>0:
+			load(songList.pop(0))
 
 
 def isOver():
 	for e in pygame.event.get():
 		if e.type==end:
+			print "endSong() sent"
 			server.endSong()
 			return
 def play():
@@ -54,21 +60,19 @@ def pause():
 def Loop():
 	global playing
 	global songList
+	global previousSong
 	
 	while True:
 		isOver()
 		if not pygame.mixer.music.get_busy():
-			#print "mixer is not busy"
-			print playing
 			if playing and len(songList)>0:
-				print "loading pop"
-				sleep(7)
-				load(songList.pop(0))
+				current = songList.pop(0)
+				if (current != previousSong):
+					load(current)
+					previousSong = current
 		elif not playing:
-			print "pausing"
 			pygame.mixer.music.pause()
 		elif playing:
-			print "unpausing"
 			pygame.mixer.music.unpause()
 
 

@@ -52,7 +52,7 @@ class SYNC:
 			#print "###########################"
 			if (state['controlling'] == 'none'): # a user is asking for control
 				new_state = json.loads(key)
-				if (state['songended'] == 'true'):
+				if (len(state['songs']) > 0 and state['songended'] == 'true'):
 					new_state['songended'] = 'true'
 				state = new_state
 			elif (json.loads(key)['controlling'] == state['controlling']): # a user is continuing to control
@@ -61,7 +61,9 @@ class SYNC:
 				#print "DEBUG NEW STATE: " + str(new_state)
 				if (len(state['songs']) > 0):
 					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
-						#print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
+						print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
+						print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 						mp3funcs.updateList(new_state['songs'], True)
 				# check for change in play/pause
 				if (state['playing'] != new_state['playing']):
@@ -72,7 +74,7 @@ class SYNC:
 						mp3funcs.play()
 					else:
 						mp3funcs.pause()
-				if (state['songended'] == 'true'):
+				if (len(state['songs']) > 0 and state['songended'] == 'true'):
 					new_state['songended'] = 'true'
 				state = new_state
 				keep_alives[state['controlling']] = 100

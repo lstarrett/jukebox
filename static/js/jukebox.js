@@ -13,15 +13,15 @@ $(document).ready(function() {
 	});
 
 	setInterval(function() {
+		sync();
+	}, 2000);
+
+	function sync() {
 		var control = me;
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
 			console.log("~~~~~~~DEBUG: sent state: " + control);
 		}
-		sync(control);
-	}, 2000);
-
-	function sync(control) {
 		$.getJSON('sync', control, function(data) {
 			var sent_state = state;
 			state = data;
