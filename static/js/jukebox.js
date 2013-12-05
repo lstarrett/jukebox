@@ -254,11 +254,11 @@ $(document).ready(function() {
 		progress: function(e, data){
 			// TODO: track progress in the GUI
 			var progress = parseInt(data.loaded / data.total * 100, 10);
-			$('#drop').css('background','linear-gradient(to left, rgba(30,87,153,0) 0%,rgba(41,137,216,0) ' + (100 - progress) + '%,rgba(255,48,48,1) 21%,rgba(255,0,0,1) 100%)');
-			//$('#drop').css('background','red');
+			$('#drop').css('background','linear-gradient(to left, rgba(30,87,153,0) 0%,rgba(41,137,216,0) ' + (100 - progress) + '%,rgba(74,106,204,0.5) ' + (101 - progress) + '%,rgba(74,106,204,0.5) 100%)');
 		},
 		fail:function(e, data){
 			// Something has gone wrong!
+			$('#drop').css('background','transparent');
 			alert("File failed to upload. Please try again.");
 		},
 		done:function(e, data){
@@ -333,7 +333,7 @@ $(document).ready(function() {
 							$('#participate').addClass('take-control');
 							$('#participate').html('TAKE CONTROL');
 						}
-					}, 1200);
+					}, 1000);
 				}
 			}, 100); // check 10x per second
 		});
