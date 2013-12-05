@@ -40,7 +40,7 @@ $(document).ready(function() {
 					}
 					$('#playpause').removeClass('playing').removeClass('paused');
 					addRemoveButtons();
-					if (state.songs.length < sent_state.songs.length) {
+					if (state.songended == 'true') {
 						removeSong($('#sortable li:last-child'));
 					}
 				}
@@ -187,7 +187,11 @@ $(document).ready(function() {
 	// Remove a song
 	function removeSong(listItem){
 		// Remove song from state
-		state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
+		if (!state.songended == 'true') {
+			console.log("DEEEEEEEEEEBUUUUG: endSong() was called and GUI updated correctly");
+			state.songs.splice(state.songs.indexOf($(listItem).clone().children().remove().end().text()), 1);
+		}
+		else state.songended = 'false';
 		sync();
 	
 		var placeholder = document.createElement("li");
@@ -269,17 +273,11 @@ $(document).ready(function() {
 	$(document).on('click', '.paused-control', function(){
 		state.playing = 'true';
 		sync();
-		//$('#playpause').addClass('playing-control').removeClass('paused-control');
-		//$('#playpause').html('PLAYING');
-		//$('#musicpanel').addClass('music-control-panel-playing');
 	});
 	// Send a PAUSE signal when the PAUSE button is clicked
 	$(document).on('click', '.playing-control', function(){
 		state.playing = 'false';
 		sync();
-		//$('#playpause').addClass('paused-control').removeClass('playing-control');
-		//$('#playpause').html('PAUSED');
-		//$('#musicpanel').removeClass('music-control-panel-playing');
 	});
 	
 	// Participate dialog
