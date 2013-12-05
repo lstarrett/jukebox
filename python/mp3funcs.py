@@ -23,7 +23,7 @@ end=-1
 #location in the list
 #for when songs keep ending without new ones being added
 n=0
-MAXN=3
+MAXN=6
 
 #state of player
 playing=False
@@ -94,7 +94,8 @@ def updateList(l,stop):
 		if list is None:
 			playing=True
 			new= True
-			
+		else:
+			newSong=True	
 
 	if playing:
 		if new:
