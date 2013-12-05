@@ -1,6 +1,6 @@
 import web
 import json
-#import mp3funcs
+import mp3funcs
 
 urls = (
 	'/', 'INDEX',
@@ -20,6 +20,7 @@ keep_alives = {}
 def endSong():
 	# notify client GUIs that the song is done
 	state['songs'].pop(0)
+	state['songended'] = 'true' 
 
 
 # serve index.html
@@ -55,14 +56,16 @@ class SYNC:
 				if (len(state['songs']) > 0):
 					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
 						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
-						#mp3funcs.updateList(new_state['songs'], True)
+						mp3funcs.updateList(new_state['songs'], True)
 				# check for change in play/pause
-				#if ((state['playing'] == 'false' and new_state['playing'] == 'true') or (state['playing'] == 'true' and new_state['playing'] == 'false')):
 				if (state['playing'] != new_state['playing']):
 					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 					print "@@@@@@@@@ DEBUG: PLAY/PAUSE SIGNAL SENT"
 					print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-					#mp3funcs.playPause()
+					if (new_state['playing'] == 'true'):
+						mp3funcs.play()
+					else:
+						mp3funcs.pause()
 				state = new_state
 				keep_alives[state['controlling']] = 100
 			elif (json.loads(key)['controlling'] == 'release'): # user is releasing control
@@ -87,7 +90,7 @@ class SYNC:
 		print "================KEEP ALIVE DIAGNOSTIC================="
 	
 		# update the current song list with the updated state
-		#mp3funcs.updateList(state['songs'], False)
+		mp3funcs.updateList(state['songs'], False)
 		print "       @@@@@@@@@ DEBUG: ROUTINE UPDATE OF LIST WITH STOP = FALSE TO KEEP IT IN SYNC"
 		print
 		print
@@ -104,6 +107,7 @@ class UPLOAD:
 
 
 if __name__ == '__main__':
+	mp3funcs.initMusic()
 	app = web.application(urls, globals())
 	app.internalerror = web.debugerror
 	app.run()
