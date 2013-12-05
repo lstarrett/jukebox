@@ -1,5 +1,6 @@
 import web
 import json
+import copy
 import mp3funcs
 
 urls = (
@@ -103,8 +104,8 @@ class SYNC:
 
 		# return the current state information
 		web.header('Content-Type', 'application/json')
-		return_state = state
-		state['songended'] = 'falce'
+		return_state = copy.deepcopy(state)
+		state['songended'] = 'false'
 		return json.dumps(return_state)
 
 class UPLOAD:
