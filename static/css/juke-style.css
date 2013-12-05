@@ -143,9 +143,15 @@
 }
 
 /* UPLOAD BLOCK STYLES */
-.upload-panel {
+.upload-panel-outer {
+	padding: 0;
 	height: 85px;
 	background: linear-gradient(45deg, white 25%, #CCCCCC 25%, #CCCCCC 50%, white 50%, white 75%, #CCCCCC 75%, #CCCCCC);
+	background-size: 50px 50px;
+}
+.upload-panel-inner {
+	height: 85px;
+	background: transparent;
 	background-size: 50px 50px;
 }
 

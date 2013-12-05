@@ -254,12 +254,15 @@ $(document).ready(function() {
 		progress: function(e, data){
 			// TODO: track progress in the GUI
 			var progress = parseInt(data.loaded / data.total * 100, 10);
+			$('#drop').css('background','linear-gradient(to left, rgba(30,87,153,0) 0%,rgba(41,137,216,0) ' + (100 - progress) + '%,rgba(255,48,48,1) 21%,rgba(255,0,0,1) 100%)');
+			//$('#drop').css('background','red');
 		},
 		fail:function(e, data){
 			// Something has gone wrong!
 			alert("File failed to upload. Please try again.");
 		},
 		done:function(e, data){
+			$('#drop').css('background','transparent');
 			// File has successfully made it to the server. Add the song to the GUI.
 			var song = document.createElement("li");
 			song.className = 'card song-block';
