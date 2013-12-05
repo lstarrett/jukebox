@@ -1,4 +1,4 @@
-# JUKEBOX mp3 interface
+#JUKEBOX mp3 interface
 #
 # Contains functions to handle play/pause, volume, manipulation, etc.
 # of mp3 files used in the Jukebox application
@@ -28,100 +28,67 @@ MAXN=6
 #state of player
 playing=False
 
-def main():
-	# Main won't be used in the finished project, use here for testing
-	initMusic()
-	global list	
-	list=["song song.mp3"]
-	playPause()
-	while True:
-		c=raw_input()
-		if c=='p':
-			playPause()
-		if c=='u':
-			updateList(["go.wav","1up.wav","cc.wav"],False)
-		if c=='s':
-			updateList(["1up.wav","go.wav","cc.wav"], True)
 
-
-def playPause():
+def play():
 	global loc
 	global newSong
+	global playing
 	global n
-	global MAXN
-	if list is None:
-			playing=False
-			return
-	#Already playing->should pause
-	if pygame.mixer.music.get_busy() and pygame.mixer.music.get_pos() != loc:
-		print "pausing"
-		pygame.mixer.music.pause()
-		loc=pygame.mixer.music.get_pos();
+	if len(list)==0:
 		playing=False
 		return
-	#Not started->load new song
-	if newSong:	
-		if n<MAXN:
-			print "starting new song"
-			newSong=False
-			pygame.mixer.music.load("music/"+list[n])
-			pygame.mixer.music.play()	
-			playing=True
-	#not playing and not at the beginning->resume playing
+
+	if playing:
+		return
+	#start new song
+	if newSong:
+		pygame.mixer.music.load("music/"+list[n])
+		pygame.mixer.music.play()
+		playing=True
+		newSong=False
+		n=0
+		return
+
+	#continue old song
 	else:
-		print "unpausing"
-		playing=False
 		pygame.mixer.music.unpause()
+		playing=True
+		return	
+
+def pause():
+	global playing
+	pygame.mixer.music.pause()
+	playing=False
+	loc=pygame.mixer.music.get_pos()
+	return
 
 #stop=t when playing song is X'ed
 def updateList(l,stop):
 	global list
 	global newSong
-	global n
 	global playing
-	new=-1
-	n=0
 	list=l
-	print "updating list"
-	if stop:
-		print "updating list and loading new song"
-		global loc
-		loc=-5
-		newSong=True
+	
+#	print ("moose "+stop+" "+playing)
+	
+	if stop and playing:
 		pygame.mixer.music.stop()
-		
-		#empty list and playing
-		if len(list)==0 and playing:
-			new=0
-			pygame.mixer.music.stop()
-			return
+		newSong=True
+		play()
+		return 
+	if stop and not playing:
+		pygame.mixer.music.stop()
+		newSong=True
 
-		#empty list and not playing
-		if len(list)==0 and not playing:
-			new=1
-			return
-
-		#not empty list and playing
-		if len(list)!=0 and playing:
-			new=2
-			pygame.mixer.music.stop()
-			pygame.mixer.music.load("music/"+list[n])
-			pygame.mixer.music.play()
-			return
-
-		#not empty list and not playing
-		if len(list)!=0 and not playing:
-			new=3
-			return
-		
-	if new==0:
-		pygame.mixer.music.load("music/"+list[n])
-		pygame.mixer.music.play()
+	if playing and not stop:
+		play()
 		return
-				
-			
 
+	if not playing and not stop:
+		return
 
+		
+	
 def SongEnd():
 	global end
 	global n
@@ -129,11 +96,16 @@ def SongEnd():
 	while True:
 		for e in pygame.event.get():
 			if e.type==end:
-				if playing:
-					server.endSong()
-					n=n+1
-					newSong=True
-					playPause()
+				server.endSong()
+				print "JUST CALLED END SONG"
+				newSong=True
+				if len(list) >0:
+					list.pop(0)
+				else:
+					playing=False
+					return
+				n=1
+				play()
 
 
 #Needs to be called before anything else can work
@@ -149,17 +121,6 @@ def initMusic():
 	t.start()
 
 # MAIN (call main automatically when 'python mp3funcs.py' is used from the terminal)
-if __name__ == '__main__':
-	main()
-
-
-
-
-
-
-
-#
-#
-#
-#
+#if __name__ == '__main__':
+#	main()
 
