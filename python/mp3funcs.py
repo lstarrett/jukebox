@@ -99,6 +99,7 @@ def updateList(l,stop):
 	if playing:
 		if new:
 			newSong=True
+			new=False
 		playPause()
 
 def SongEnd():
