@@ -63,13 +63,14 @@ def Loop():
 	global previousSong
 	
 	while True:
-		isOver()
+#		isOver()
 		if not pygame.mixer.music.get_busy():
 			if playing and len(songList)>0:
-				current = songList.pop(0)
-				if (current != previousSong):
-					load(current)
-					previousSong = current
+#				current = songList.pop(0)
+#				if (current != previousSong):
+#					load(current)
+#					previousSong = current
+					load(songList.pop(0))
 		elif not playing:
 			pygame.mixer.music.pause()
 		elif playing:

@@ -1,6 +1,7 @@
 import web
 import json
 import copy
+import time
 import mp3funcs
 
 urls = (
@@ -17,6 +18,7 @@ state = { 'playing':'false', 'songended':'false', 'controlling':'none', 'users':
 
 # State which is synced between clients
 keep_alives = {}
+lastSync = int(round(time.time()))
 
 def endSong():
 	# notify client GUIs that the song is done
@@ -40,6 +42,7 @@ class SERVE_STATIC:
 class SYNC:
 	def GET(self):
 		global state
+		global lastSync
 
 		# extract client request data and process it
 		#if (len(web.input()) == 0): return JSON.dumps(state)
@@ -88,16 +91,18 @@ class SYNC:
 
 		# subtract some "time" from each user's keepalive value. Note that this is NOT real time, and "time" only
 		# decreases when at least one user is online syncing with the server.
-		#print "================KEEP ALIVE DIAGNOSTIC================="
-		keep_alives.update((user, time - (20 / len(state['users']))) for user, time in keep_alives.items())
-		for user, time in keep_alives.items():
-			#print "user: " + user + ", time: " + str(time)
+		print "================KEEP ALIVE DIAGNOSTIC================="
+		#keep_alives.update((user, time - (20 / len(state['users']))) for user, time in keep_alives.items())
+		keep_alives.update((user, timeout - (10 * (int(round(time.time())) - lastSync))) for user, timeout in keep_alives.items())
+		lastSync = int(round(time.time()))
+		for user, timeout in keep_alives.items():
+			print "user: " + user + ", time: " + str(timeout)
 			if (time <= 0):
 				if (state['controlling'] == user):
 					state['controlling'] = 'none'
 				state['users'].remove(user)
 				del keep_alives[user]
-		#print "================KEEP ALIVE DIAGNOSTIC================="
+		print "================KEEP ALIVE DIAGNOSTIC================="
 	
 		# update the current song list with the updated state
 		mp3funcs.updateList(state['songs'], False)
