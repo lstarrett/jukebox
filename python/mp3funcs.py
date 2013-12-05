@@ -73,7 +73,7 @@ def playPause():
 		playing=False
 		pygame.mixer.music.unpause()
 
-
+#stop=t when playing song is X'ed
 def updateList(l,stop):
 	global list
 	global newSong
@@ -87,6 +87,11 @@ def updateList(l,stop):
 		loc=-5
 		newSong=True
 		pygame.mixer.music.stop()
+		
+		#empty list
+		if list is None:
+			playing=True
+			
 
 	if playing:
 		playPause()
