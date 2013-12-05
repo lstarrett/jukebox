@@ -20,13 +20,13 @@ $(document).ready(function() {
 		var control = me;
 		if (state != null && controlling == true) {
 			control = JSON.stringify(state);
-			console.log("~~~~~~~DEBUG: sent state: " + control);
+//			console.log("~~~~~~~DEBUG: sent state: " + control);
 		}
 		$.getJSON('sync', control, function(data) {
 			var sent_state = state;
 			state = data;
-			console.log("~~~~~~~DEBUG: received state: " + JSON.stringify(state));
-			console.log("");
+//			console.log("~~~~~~~DEBUG: received state: " + JSON.stringify(state));
+//			console.log("");
 			if (me != 'spectator') {
 				if (state.controlling == me) {
 					$('#participate').addClass('controlling').removeClass('take-control').removeClass('control-disabled');
@@ -78,7 +78,7 @@ $(document).ready(function() {
 			}
 		}
 		if ($('#userlist li').length >= 5) {
-			$('.participate').addClass('participate-disabled').removeClass('participate');
+			$('.participate').addClass('participate-disabled').removeClass('participate').removeClass('controlling').removeClass('control-disabled').removeClass('take-control');
 		}
 		else {
 			$('.participate-disabled').addClass('participate').removeClass('participate-disabled');
@@ -126,6 +126,26 @@ $(document).ready(function() {
 	// Setup users
 	function setupUsers() {
 		$('#userlist').empty();
+		while (state.users.length > 5) {
+			var end = state.users.pop();
+			if (end == me) {
+				controlling = false;
+				me = 'spectator';
+				$('#participate').addClass('participate-disabled').removeClass('participate').removeClass('controlling').removeClass('control-disabled').removeClass('take-control');
+				$('#participate').html("JOIN");
+				$('#participate').avgrund({
+					height: 230,
+					holderClass: 'card',
+					template: '    <div class="card welcome-modal">WELCOME!</div>' +
+					          '    <div class="form-group">' +
+					          '        <input type="text" value placeholder="Nickname" id="nickname" class="form-control">' +
+					          '    </div>' +
+					          '    <div id="pwbox" class="form-group">' +
+					          '        <input type="password" value placeholder="Channel Password" id="password" class="form-control password-error">' +
+					          '    </div>'
+				});
+			}
+		}
 		for (var i = 0; i < state.users.length; i++) {
 			var user = document.createElement("li");
 			user.className = 'card userlist-user';

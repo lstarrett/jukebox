@@ -19,6 +19,7 @@ state = { 'playing':'false', 'songended':'false', 'controlling':'none', 'users':
 # State which is synced between clients
 keep_alives = {}
 lastSync = int(round(time.time()))
+aliveCheck = 0
 
 def endSong():
 	# notify client GUIs that the song is done
@@ -43,6 +44,7 @@ class SYNC:
 	def GET(self):
 		global state
 		global lastSync
+		global aliveCheck
 
 		# extract client request data and process it
 		#if (len(web.input()) == 0): return JSON.dumps(state)
@@ -64,9 +66,9 @@ class SYNC:
 				#print "DEBUG NEW STATE: " + str(new_state)
 				if (len(state['songs']) > 0):
 					if (len(new_state['songs']) == 0 or state['songs'][0] != new_state['songs'][0]):
-						print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-						print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
-						print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+						#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+						#print "       @@@@@@@@@ DEBUG: PLAYING SONG WAS STOPPED, UPDATE LIST WITH STOP = TRUE"
+						#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 						mp3funcs.updateList(new_state['songs'], True)
 				# check for change in play/pause
 				if (state['playing'] != new_state['playing']):
@@ -91,18 +93,19 @@ class SYNC:
 
 		# subtract some "time" from each user's keepalive value. Note that this is NOT real time, and "time" only
 		# decreases when at least one user is online syncing with the server.
-		print "================KEEP ALIVE DIAGNOSTIC================="
-		#keep_alives.update((user, time - (20 / len(state['users']))) for user, time in keep_alives.items())
-		keep_alives.update((user, timeout - (10 * (int(round(time.time())) - lastSync))) for user, timeout in keep_alives.items())
-		lastSync = int(round(time.time()))
-		for user, timeout in keep_alives.items():
-			print "user: " + user + ", time: " + str(timeout)
-			if (time <= 0):
-				if (state['controlling'] == user):
-					state['controlling'] = 'none'
-				state['users'].remove(user)
-				del keep_alives[user]
-		print "================KEEP ALIVE DIAGNOSTIC================="
+		if (aliveCheck % 10 == 0):
+			print "================KEEP ALIVE DIAGNOSTIC================="
+			keep_alives.update((user, timeout - (3*(int(round(time.time())) - lastSync))) for user, timeout in keep_alives.items())
+			lastSync = int(round(time.time()))
+			for user, timeout in keep_alives.items():
+				print "user: " + user + ", time: " + str(timeout)
+				if (timeout <= 0):
+					if (state['controlling'] == user):
+						state['controlling'] = 'none'
+					del keep_alives[user]
+					state['users'].remove(user)
+			print "================KEEP ALIVE DIAGNOSTIC================="
+		aliveCheck = aliveCheck + 1
 	
 		# update the current song list with the updated state
 		mp3funcs.updateList(state['songs'], False)

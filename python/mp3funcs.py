@@ -46,7 +46,7 @@ def updateList(l,stop):
 def isOver():
 	for e in pygame.event.get():
 		if e.type==end:
-			print "endSong() sent"
+			#print "endSong() sent"
 			server.endSong()
 			return
 def play():
