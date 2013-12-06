@@ -328,7 +328,7 @@ $(document).ready(function() {
 
 				// check for a nickname, and then compare password. obviously this is glaringly unsecure, but it should
 				// be enough to keep people from causing trouble during our 7 minute presentation.
-				if (nickname.length > 0 && valid(nickname) && password == 'test') {
+				if (nickname.length > 0 && valid(nickname) && password == 'juke490demo') {
 					clearInterval(checkloop);
 
 					// change the box to success for 1 second
